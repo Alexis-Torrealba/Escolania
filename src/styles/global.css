@@ -9,8 +9,11 @@
    Design tokens
    Cada variable --color-* / --font-* / --animate-* genera utilidades:
    --color-navy-900 → bg-navy-900, text-navy-900, border-navy-900…
+   `static`: emite TODAS las variables aunque ninguna clase las use
+   (por defecto v4 solo incluye las usadas), así var(--color-*) siempre
+   funciona en CSS a mano, SVGs o estilos inline.
    ------------------------------------------------------------------ */
-@theme {
+@theme static {
   /* Navy institucional. Marca = 900 (#0D1E5B, color principal en Divi) */
   --color-navy-50: #eef1fa;
   --color-navy-100: #dde3f4;
