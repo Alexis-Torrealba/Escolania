@@ -1,0 +1,166 @@
+---
+import MapPin from '@lucide/astro/icons/map-pin';
+import Phone from '@lucide/astro/icons/phone';
+import Mail from '@lucide/astro/icons/mail';
+import Clock from '@lucide/astro/icons/clock';
+import Briefcase from '@lucide/astro/icons/briefcase';
+import Receipt from '@lucide/astro/icons/receipt';
+import Navigation from '@lucide/astro/icons/navigation';
+import School from '@lucide/astro/icons/school';
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Button from '../components/Button.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import { site, contact, links } from '../data/site';
+
+const channels = [
+  { icon: Phone, label: 'Teléfono', value: contact.phone, href: contact.phoneHref },
+  { icon: Mail, label: 'Correo', value: contact.email, href: `mailto:${contact.email}` },
+  { icon: Clock, label: 'Horario de atención', value: contact.hours },
+];
+
+// Según lo que necesite el representante, a dónde dirigirse
+const topics = [
+  {
+    icon: School,
+    title: 'Inscripciones',
+    text: 'Solicita un cupo desde el portal de representantes: entra, elige «Soy Representante» y luego «Solicitud de cupo».',
+    action: { label: 'Ir al portal', href: links.portal, external: true },
+  },
+  {
+    icon: Receipt,
+    title: 'Pagos y administración',
+    text: 'Tras pagar, envía el capture con el nombre, apellido, grado o año y sección del estudiante.',
+    action: { label: contact.email, href: `mailto:${contact.email}?subject=Reporte%20de%20pago` },
+  },
+  {
+    icon: Briefcase,
+    title: 'Trabaja con nosotros',
+    text: '¿Eres docente o te estás formando? Envíanos tu síntesis curricular y te contactaremos.',
+    action: { label: contact.hrEmail, href: `mailto:${contact.hrEmail}?subject=S%C3%ADntesis%20curricular` },
+  },
+];
+---
+
+<PageLayout
+  title="Contacto"
+  description={`Teléfono, correo, horario y dirección de la ${site.fullName} en Guaracarumbo, La Guaira.`}
+>
+  <PageHero
+    eyebrow="Contacto"
+    title="Estamos para "
+    highlight="ayudarte"
+    label="Contacto"
+    description="Llámanos, escríbenos o visítanos en Guaracarumbo. Con gusto atendemos a representantes, estudiantes y a toda la comunidad."
+  />
+
+  <section class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8 lg:pb-28">
+    <div class="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
+      <!-- Canales -->
+      <div class="reveal rounded-3xl bg-navy-900 p-8 sm:p-10">
+        <h2 class="text-2xl text-white">Comunícate con nosotros</h2>
+        <ul class="mt-8 space-y-6">
+          {
+            channels.map(({ icon: Icon, label, value, href }) => (
+              <li class="flex gap-4">
+                <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-white/10 text-gold-400">
+                  <Icon size={20} aria-hidden="true" />
+                </span>
+                <div class="min-w-0">
+                  <p class="text-sm text-navy-200">{label}</p>
+                  {href ? (
+                    <a
+                      href={href}
+                      class="font-display text-lg font-semibold break-words text-white transition-colors hover:text-gold-300"
+                    >
+                      {value}
+                    </a>
+                  ) : (
+                    <p class="font-display text-lg font-semibold text-white">{value}</p>
+                  )}
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="mt-10 border-t border-white/10 pt-8">
+          <p class="text-sm text-navy-200">Síguenos en redes</p>
+          <SocialLinks size={18} class="mt-3 -ml-2" itemClass="size-10 text-white hover:bg-white/10 hover:text-gold-300" />
+        </div>
+      </div>
+
+      <!-- Dirección -->
+      <div class="reveal flex flex-col overflow-hidden rounded-3xl bg-sky-50/70 ring-1 ring-navy-100">
+        <div class="map-art relative grid flex-1 place-items-center p-10" aria-hidden="true">
+          <span class="relative grid size-20 place-items-center rounded-full bg-gold-500 text-navy-900 shadow-xl shadow-gold-500/30">
+            <MapPin size={34} />
+          </span>
+        </div>
+        <div class="bg-white p-8">
+          <p class="text-xs font-bold tracking-[0.2em] text-gold-600 uppercase">Dónde estamos</p>
+          <address class="mt-3 font-display text-xl font-semibold text-navy-900 not-italic">
+            {contact.address}
+            <span class="mt-1 block font-sans text-base font-normal text-slate-500">Guaracarumbo, estado La Guaira</span>
+          </address>
+          <Button href={links.maps} external variant="secondary" class="mt-6">
+            <Navigation size={16} aria-hidden="true" />
+            Cómo llegar
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ¿Qué necesitas? -->
+  <section class="bg-sky-50/70">
+    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+      <SectionHeading eyebrow="¿Qué necesitas?" title="Te orientamos según tu " highlight="consulta" />
+      <ul class="mt-12 grid gap-5 md:grid-cols-3">
+        {
+          topics.map(({ icon: Icon, title, text, action }) => (
+            <li class="reveal flex flex-col rounded-3xl bg-white p-7 shadow-sm ring-1 ring-navy-100">
+              <span class="grid size-12 place-items-center rounded-2xl bg-navy-900 text-gold-400">
+                <Icon size={22} aria-hidden="true" />
+              </span>
+              <h3 class="mt-5 text-xl">{title}</h3>
+              <p class="mt-2 flex-1 text-slate-600">{text}</p>
+              <a
+                href={action.href}
+                class="mt-6 inline-flex items-center gap-2 font-semibold break-all text-navy-900 underline decoration-gold-400 decoration-2 underline-offset-4 transition-colors hover:text-gold-600"
+                {...action.external && { target: '_blank', rel: 'noopener noreferrer' }}
+              >
+                {action.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  /* Ilustración de mapa: cuadrícula de calles sobre celeste, sin cargar mapas de terceros */
+  .map-art {
+    min-height: 14rem;
+    background-color: var(--color-sky-100);
+    background-image:
+      linear-gradient(var(--color-sky-200) 2px, transparent 2px),
+      linear-gradient(90deg, var(--color-sky-200) 2px, transparent 2px),
+      linear-gradient(35deg, transparent 48%, white 48% 52%, transparent 52%);
+    background-size:
+      3rem 3rem,
+      3rem 3rem,
+      100% 100%;
+  }
+  .map-art::before {
+    content: '';
+    position: absolute;
+    width: 9rem;
+    height: 9rem;
+    border-radius: 9999px;
+    background: color-mix(in oklab, var(--color-gold-400) 25%, transparent);
+    animation: float 6s ease-in-out infinite;
+  }
+</style>

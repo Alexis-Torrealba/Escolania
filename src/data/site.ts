@@ -14,7 +14,10 @@ export const contact = {
   address: 'Urb. Armando Reverón, Guaracarumbo, Av. Principal, Local Escolanía',
   phone: '(0212) 352-6068',
   phoneHref: 'tel:+582123526068',
+  // Administración y reporte de pagos (página «Administración» de WordPress)
   email: 'ad.pagos.escolania@gmail.com',
+  // Postulaciones de docentes (página «Recursos Humanos» de WordPress)
+  hrEmail: 'rrhh.escolania@gmail.com',
   hours: 'Lunes a viernes · 8:30 a 12:30 m. / 2:30 a 4:30 p. m.',
 } as const;
 
@@ -24,6 +27,8 @@ export const links = {
   facebook: 'https://www.facebook.com/Uepescolania/',
   instagram: 'https://www.instagram.com/uepescolania/',
   youtube: 'https://www.youtube.com/channel/UC5PrxrdNZ-eIEBlJEFFxDcQ',
+  // TODO(contenido): sustituir por el enlace exacto de la ficha en Google Maps
+  maps: 'https://www.google.com/maps/search/?api=1&query=U.E.P.+Escolan%C3%ADa+Ni%C3%B1os+Cantores+de+La+Guaira+Guaracarumbo',
 } as const;
 
 // TODO(stats): reemplazar por cifras reales cuando Alexis las tenga.
