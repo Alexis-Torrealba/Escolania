@@ -1,0 +1,62 @@
+---
+import { Image } from 'astro:assets';
+import MapPin from '@lucide/astro/icons/map-pin';
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Button from '../components/Button.astro';
+import CallToAction from '../components/CallToAction.astro';
+import { facilities } from '../data/school-life';
+import { links } from '../data/site';
+
+const [sede, ...spaces] = facilities;
+// Mosaico sin huecos para 5 fotos: la primera ocupa el ancho en tablet y dos columnas en escritorio
+const wide = new Set([0]);
+---
+
+<PageLayout
+  title="Infraestructura"
+  description="Conoce las instalaciones de la U.E.P. Escolanía en Guaracarumbo: patios, aulas, áreas techadas y espacios recreativos."
+>
+  <PageHero
+    eyebrow="Vida escolar"
+    title="Nuestras "
+    highlight="instalaciones"
+    label="Infraestructura"
+    breadcrumbs={[{ label: 'Vida escolar' }]}
+    description={`${sede.text} Espacios pensados para aprender, compartir y crecer.`}
+    image={sede.image}
+    imageAlt={sede.alt}
+  >
+    <Button href={links.maps} external variant="outline">
+      <MapPin size={16} aria-hidden="true" />
+      Ver en el mapa
+    </Button>
+  </PageHero>
+
+  <section class="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8 lg:pb-32">
+    <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        spaces.map((space, i) => (
+          <li class:list={['reveal', wide.has(i) && 'sm:col-span-2']}>
+            <figure class="group relative h-full overflow-hidden rounded-3xl shadow-lg shadow-navy-900/10">
+              <Image
+                src={space.image}
+                alt={space.alt}
+                widths={[480, 720, 1080]}
+                sizes={wide.has(i) ? '(min-width: 1024px) 66vw, (min-width: 640px) 50vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'}
+                class="aspect-4/3 h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-linear-to-t from-navy-950/90 via-navy-950/10 to-transparent" />
+              <figcaption class="absolute inset-x-0 bottom-0 p-6">
+                <h2 class="text-xl text-white sm:text-2xl">{space.title}</h2>
+                <p class="mt-1 max-w-md text-sm text-navy-100">{space.text}</p>
+              </figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <CallToAction />
+</PageLayout>
