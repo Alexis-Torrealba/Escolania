@@ -1,0 +1,108 @@
+---
+import { Image, Picture } from 'astro:assets';
+import MapPin from '@lucide/astro/icons/map-pin';
+import Button from '../Button.astro';
+import PillarIcon from '../PillarIcon.astro';
+import heroImage from '../../assets/home/hero.jpg';
+import escudo from '../../assets/brand/escudo.png';
+import { links } from '../../data/site';
+import { pillars } from '../../data/education';
+---
+
+<section class="relative overflow-hidden bg-linear-to-b from-sky-50 via-white to-white">
+  <!-- Decoración de fondo -->
+  <div class="pointer-events-none absolute inset-0 -z-0" aria-hidden="true">
+    <div class="absolute -top-32 -left-32 size-96 rounded-full bg-sky-200/50 blur-3xl"></div>
+    <div class="absolute top-1/3 -right-24 size-80 rounded-full bg-gold-200/40 blur-3xl"></div>
+  </div>
+
+  <div
+    class="relative mx-auto grid max-w-7xl items-center gap-14 px-4 pt-12 pb-20 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:px-8 lg:pt-20 lg:pb-28"
+  >
+    <!-- Texto -->
+    <div>
+      <p class="animate-fade-up font-script text-3xl text-gold-600">Niños Cantores de La Guaira</p>
+      <h1 class="mt-2 animate-fade-up text-5xl leading-[1.05] animate-delay-100 sm:text-6xl xl:text-7xl">
+        Educación integral, <span class="relative whitespace-nowrap text-gold-500">
+          a la vanguardia
+          <svg
+            class="absolute -bottom-2 left-0 h-3 w-full text-gold-300"
+            viewBox="0 0 300 12"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path d="M2 9C60 3 140 2 298 7" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"
+            ></path>
+          </svg>
+        </span>
+      </h1>
+      <p class="mt-7 max-w-xl animate-fade-up text-lg leading-relaxed animate-delay-200 sm:text-xl">
+        Unidad Educativa Privada en Guaracarumbo, La Guaira. Formamos a nuestros escolanos desde la fe, el saber, la
+        música y el deporte.
+      </p>
+
+      <div class="mt-9 flex animate-fade-up flex-wrap gap-3 animate-delay-300">
+        <Button href={links.portal} external>Solicitar cupo</Button>
+        <Button href="/nosotros/historia" variant="outline">Conoce nuestra historia</Button>
+      </div>
+
+      <!-- Las 4 columnas en miniatura -->
+      <ul class="mt-12 grid max-w-lg animate-fade-up grid-cols-4 gap-3 animate-delay-500">
+        {
+          pillars.map((p) => (
+            <li class="flex flex-col items-center gap-2 text-center">
+              <span class="grid size-12 place-items-center rounded-2xl bg-white text-navy-900 shadow-sm ring-1 ring-navy-100">
+                <PillarIcon name={p.icon} size={22} />
+              </span>
+              <span class="text-xs font-semibold text-navy-900">{p.short}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Imagen -->
+    <div class="relative animate-scale-in animate-delay-200">
+      <div class="absolute -inset-4 -z-0 rotate-3 rounded-[2.5rem] bg-navy-900" aria-hidden="true"></div>
+      <div class="absolute -right-6 -bottom-6 -z-0 size-40 rounded-full bg-gold-400/80 blur-2xl" aria-hidden="true">
+      </div>
+      <Picture
+        src={heroImage}
+        alt="Escolanos con su uniforme en el aula de la U.E.P. Escolanía"
+        formats={['avif', 'webp']}
+        widths={[480, 800, 1040]}
+        sizes="(min-width: 1024px) 45vw, 100vw"
+        loading="eager"
+        fetchpriority="high"
+        pictureAttributes={{ class: 'relative block' }}
+        class="aspect-4/3 w-full rounded-[2rem] object-cover shadow-2xl ring-4 ring-white"
+      />
+
+      <!-- Nota manuscrita -->
+      <p
+        class="absolute -top-10 right-2 hidden -rotate-6 font-script text-2xl text-navy-800 sm:block lg:-top-14"
+        aria-hidden="true"
+      >
+        ¡Nuestros escolanos!
+        <svg class="ml-auto h-8 w-10 text-gold-500" viewBox="0 0 40 32" fill="none" aria-hidden="true">
+          <path d="M30 2C34 14 26 24 8 28M8 28l7-6M8 28l8 3" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+          ></path>
+        </svg>
+      </p>
+
+      <!-- Tarjeta flotante -->
+      <div
+        class="absolute -bottom-8 left-4 flex animate-float items-center gap-3 rounded-2xl bg-white/95 py-3 pr-5 pl-3 shadow-xl ring-1 shadow-navy-900/15 ring-navy-100 backdrop-blur sm:left-[-1.5rem]"
+      >
+        <Image src={escudo} alt="" width={44} height={44} densities={[1, 2]} />
+        <div class="leading-tight">
+          <p class="font-display text-sm font-bold text-navy-900">U.E.P. Escolanía</p>
+          <p class="mt-0.5 flex items-center gap-1 text-xs text-slate-500">
+            <MapPin size={12} class="text-gold-500" />
+            Guaracarumbo, La Guaira
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

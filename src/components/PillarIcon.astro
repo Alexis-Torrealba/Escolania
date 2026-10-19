@@ -1,0 +1,18 @@
+---
+import Church from '@lucide/astro/icons/church';
+import BookOpen from '@lucide/astro/icons/book-open';
+import EighthNotes from '@lucide/astro/icons/eighth-notes';
+import Volleyball from '@lucide/astro/icons/volleyball';
+import type { PillarIcon } from '../data/education';
+
+interface Props {
+  name: PillarIcon;
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 24, class: className } = Astro.props;
+const Icon = { church: Church, book: BookOpen, music: EighthNotes, sport: Volleyball }[name];
+---
+
+<Icon size={size} class={className} />

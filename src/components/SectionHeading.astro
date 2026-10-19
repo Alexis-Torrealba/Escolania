@@ -1,0 +1,28 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  /** Parte del título resaltada en dorado (se añade al final) */
+  highlight?: string;
+  align?: 'left' | 'center';
+  tone?: 'light' | 'dark';
+  class?: string;
+}
+
+const { eyebrow, title, highlight, align = 'left', tone = 'light', class: className } = Astro.props;
+---
+
+<div class:list={['reveal max-w-2xl', align === 'center' && 'mx-auto text-center', className]}>
+  <p class="text-xs font-bold tracking-[0.25em] text-gold-600 uppercase">{eyebrow}</p>
+  <h2 class:list={['mt-3 text-3xl leading-tight sm:text-4xl', tone === 'dark' && 'text-white']}>
+    {title}
+    {highlight && <span class="text-gold-500">{highlight}</span>}
+  </h2>
+  {
+    Astro.slots.has('default') && (
+      <div class:list={['mt-4 text-lg', tone === 'dark' ? 'text-navy-100' : 'text-slate-600']}>
+        <slot />
+      </div>
+    )
+  }
+</div>

@@ -1,0 +1,31 @@
+---
+import { stats } from '../../data/site';
+
+// Nunca publicamos cifras vacías o inventadas:
+// - en desarrollo se ven todas, con las pendientes marcadas como TODO;
+// - en producción solo las que tienen valor, y si hay menos de 2 se oculta la barra.
+const isDev = import.meta.env.DEV;
+const visible = isDev ? stats : stats.filter((s) => s.value !== null);
+const show = isDev || visible.length >= 2;
+---
+
+{
+  show && (
+    <section aria-label="La Escolanía en cifras" class="bg-navy-900">
+      <dl class="mx-auto grid max-w-7xl grid-cols-2 divide-white/10 px-4 py-10 sm:px-6 lg:grid-cols-4 lg:divide-x lg:px-8">
+        {visible.map(({ value, label }) => (
+          <div class="reveal flex flex-col-reverse items-center gap-1 px-4 py-4 text-center">
+            <dt class="text-sm text-navy-200">{label}</dt>
+            <dd class="font-display text-4xl font-extrabold text-gold-400 sm:text-5xl">
+              {value ?? (
+                <span class="rounded-md bg-gold-400/15 px-2 py-0.5 align-middle font-sans text-sm font-semibold tracking-wider text-gold-300">
+                  TODO
+                </span>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  )
+}

@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets';
+import Button from '../Button.astro';
+import escudo from '../../assets/brand/escudo.png';
+import { links } from '../../data/site';
+
+// Pasos reales del proceso de preinscripción (Home de WordPress)
+const steps = ['Ingresa al portal de representantes', 'Haz clic en «Soy Representante»', 'Elige «Solicitud de cupo»'];
+---
+
+<section class="px-4 pb-24 sm:px-6 lg:px-8 lg:pb-32">
+  <div
+    class="reveal relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-navy-900 px-6 py-14 sm:px-12 lg:px-16 lg:py-20"
+  >
+    <!-- Decoración -->
+    <Image
+      src={escudo}
+      alt=""
+      width={420}
+      height={420}
+      class="pointer-events-none absolute -top-16 -right-20 w-[26rem] rotate-12 opacity-[0.07] grayscale"
+    />
+    <div class="absolute -bottom-24 -left-24 size-72 rounded-full bg-gold-500/20 blur-3xl" aria-hidden="true"></div>
+
+    <div class="relative grid items-center gap-12 lg:grid-cols-[1.3fr_1fr]">
+      <div>
+        <p class="font-script text-3xl text-gold-300">¡Te esperamos!</p>
+        <h2 class="mt-2 text-3xl leading-tight text-white sm:text-4xl lg:text-5xl">
+          Haz que tu hijo sea parte de la familia <span class="text-gold-400">Escolanía</span>
+        </h2>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <Button href={links.portal} external>Solicitar cupo</Button>
+          <Button href="/contacto" variant="light">Contáctanos</Button>
+        </div>
+      </div>
+
+      <ol class="space-y-3">
+        {
+          steps.map((step, i) => (
+            <li class="flex items-center gap-4 rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
+              <span class="grid size-10 shrink-0 place-items-center rounded-full bg-gold-500 font-display font-bold text-navy-900">
+                {i + 1}
+              </span>
+              <span class="font-medium text-white">{step}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>

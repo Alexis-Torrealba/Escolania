@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import SectionHeading from '../SectionHeading.astro';
+import Button from '../Button.astro';
+import { activities } from '../../data/activities';
+
+const featured = activities.filter((a) => a.featured);
+const count = (category: string) => activities.filter((a) => a.category === category).length;
+---
+
+<section class="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
+  <div class="grid items-center gap-14 lg:grid-cols-[1fr_1.5fr]">
+    <div>
+      <SectionHeading eyebrow="Extracátedras" title="Más que " highlight="clases">
+        Las actividades extracátedra permiten a nuestros escolanos desarrollar su ingenio y sus habilidades artísticas y
+        deportivas, expresar sus emociones y fortalecer su personalidad.
+      </SectionHeading>
+
+      <dl class="reveal mt-8 flex gap-8">
+        <div>
+          <dt class="text-sm text-slate-500">Deportivas</dt>
+          <dd class="font-display text-4xl font-extrabold text-navy-900">{count('Deporte')}</dd>
+        </div>
+        <div class="w-px bg-navy-100" aria-hidden="true"></div>
+        <div>
+          <dt class="text-sm text-slate-500">Artísticas</dt>
+          <dd class="font-display text-4xl font-extrabold text-navy-900">{count('Arte')}</dd>
+        </div>
+      </dl>
+
+      <div class="reveal mt-10">
+        <Button href="/actividades" variant="secondary">Ver las {activities.length} actividades</Button>
+      </div>
+    </div>
+
+    <ul class="grid grid-cols-2 gap-4 sm:gap-5">
+      {
+        featured.map((a, i) => (
+          <li class:list={['reveal', i % 2 === 1 && 'sm:translate-y-8']}>
+            <a
+              href={`/actividades/${a.slug}`}
+              class="group relative block overflow-hidden rounded-3xl shadow-lg shadow-navy-900/10"
+            >
+              <Image
+                src={a.image}
+                alt={`Escolanos en la actividad de ${a.name.toLowerCase()}`}
+                widths={[320, 480, 640]}
+                sizes="(min-width: 1024px) 28vw, 50vw"
+                class="aspect-square w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-110 sm:aspect-4/3"
+              />
+              <div class="absolute inset-0 bg-linear-to-t from-navy-950/90 via-navy-950/20 to-transparent" />
+              <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+                <span class="inline-block rounded-full bg-gold-500 px-2.5 py-0.5 text-[0.7rem] font-bold text-navy-900">
+                  Desde {a.minAge} años
+                </span>
+                <h3 class="mt-2 text-base leading-tight text-white sm:text-xl">{a.name}</h3>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

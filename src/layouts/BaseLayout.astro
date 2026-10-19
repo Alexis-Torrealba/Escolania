@@ -6,9 +6,11 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  /** Oculta la página de los buscadores (páginas internas) */
+  noindex?: boolean;
 }
 
-const { title, description = site.description } = Astro.props;
+const { title, description = site.description, noindex = false } = Astro.props;
 const fullTitle = title ? `${title} · ${site.name}` : site.fullName;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -21,6 +23,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <!-- Open Graph: la tarjeta que aparece al compartir en WhatsApp / redes -->
     <meta property="og:type" content="website" />

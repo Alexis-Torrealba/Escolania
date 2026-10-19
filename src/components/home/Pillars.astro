@@ -1,0 +1,35 @@
+---
+import SectionHeading from '../SectionHeading.astro';
+import PillarIcon from '../PillarIcon.astro';
+import { pillars } from '../../data/education';
+---
+
+<section class="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
+  <SectionHeading eyebrow="Nuestra identidad" title="Las cuatro columnas de " highlight="nuestra educación" align="center">
+    Una formación integral que acompaña a cada escolano en todas las dimensiones de su persona.
+  </SectionHeading>
+
+  <ul class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    {
+      pillars.map((p, i) => (
+        <li class="group reveal relative overflow-hidden rounded-3xl bg-white p-8 ring-1 ring-navy-100 transition-all duration-500 ease-out-expo hover:-translate-y-2 hover:shadow-2xl hover:shadow-navy-900/10 hover:ring-gold-300">
+          <span
+            class="absolute -top-3 right-5 font-display text-8xl font-extrabold text-navy-50 transition-colors duration-500 group-hover:text-gold-100"
+            aria-hidden="true"
+          >
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <span class="relative grid size-14 place-items-center rounded-2xl bg-navy-900 text-gold-400 transition-transform duration-500 ease-out-expo group-hover:scale-110 group-hover:-rotate-6">
+            <PillarIcon name={p.icon} size={26} />
+          </span>
+          <h3 class="relative mt-6 text-xl">Educación {p.title.toLowerCase()}</h3>
+          <p class="relative mt-3 text-sm leading-relaxed text-slate-600">{p.summary}</p>
+          <span
+            class="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-gold-500 transition-transform duration-500 ease-out-expo group-hover:scale-x-100"
+            aria-hidden="true"
+          />
+        </li>
+      ))
+    }
+  </ul>
+</section>
