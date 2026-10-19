@@ -48,6 +48,11 @@
   --color-sky-300: #a3c3f2;
   --color-sky-400: #77a3e9;
 
+  /* Cashea (método de pago en cuotas): color de marca, SOLO para elementos de Cashea.
+     Sobre el amarillo, siempre texto cashea-ink (contraste 17:1). Blanco sobre amarillo no se lee. */
+  --color-cashea: #fdfa3d;
+  --color-cashea-ink: #141414;
+
   --font-display: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
   --font-script: "Caveat", cursive;

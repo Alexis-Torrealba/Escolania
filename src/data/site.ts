@@ -12,14 +12,36 @@ export const site = {
 
 export const contact = {
   address: 'Urb. Armando Reverón, Guaracarumbo, Av. Principal, Local Escolanía',
-  phone: '(0212) 352-6068',
-  phoneHref: 'tel:+582123526068',
+  phone: '(0424) 173-5228',
+  phoneHref: 'tel:+584241735228',
   // Administración y reporte de pagos (página «Administración» de WordPress)
   email: 'ad.pagos.escolania@gmail.com',
   // Postulaciones de docentes (página «Recursos Humanos» de WordPress)
   hrEmail: 'rrhh.escolania@gmail.com',
   hours: 'Lunes a viernes · 8:30 a 12:30 m. / 2:30 a 4:30 p. m.',
 } as const;
+
+// Pagos y administración (confirmado por la institución, oct. 2026).
+// Las cuentas bancarias NO se publican hasta que administración confirme las vigentes.
+export const payments = {
+  fees: [
+    { label: 'Inscripción', amount: 160, note: 'Se cancela al formalizar la inscripción' },
+    // Plazo tomado del Acta de Compromiso
+    { label: 'Mensualidad', amount: 80, note: 'Se cancela en los primeros cinco días de cada mes' },
+  ],
+  currency: '$',
+  // Cashea: app venezolana para pagar en cuotas
+  cashea: true,
+  // Pasos para reportar un pago (página «Administración» de WordPress)
+  reportSteps: [
+    'Realiza tu pago por el método de tu preferencia.',
+    'Toma un capture del comprobante.',
+    'Envíalo al correo de administración indicando nombre, apellido, grado o año y sección del estudiante.',
+    'Trae tu control de pago para firmarlo y sellarlo.',
+  ],
+} as const;
+
+export const formatFee = (amount: number) => `${amount} ${payments.currency}`;
 
 export const links = {
   // Sistema externo de inscripciones y representantes

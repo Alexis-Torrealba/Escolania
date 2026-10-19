@@ -1,0 +1,103 @@
+---
+import Mail from '@lucide/astro/icons/mail';
+import Receipt from '@lucide/astro/icons/receipt';
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Button from '../components/Button.astro';
+import CasheaHighlight from '../components/CasheaHighlight.astro';
+import CasheaBadge from '../components/CasheaBadge.astro';
+import { contact, links, payments, formatFee } from '../data/site';
+
+const reportHref = `mailto:${contact.email}?subject=Reporte%20de%20pago`;
+---
+
+<PageLayout
+  title="Pagos"
+  description={`Inscripción ${formatFee(payments.fees[0].amount)} y mensualidad ${formatFee(payments.fees[1].amount)}. Paga en cuotas con Cashea y reporta tu pago a la administración de la U.E.P. Escolanía.`}
+>
+  <PageHero
+    eyebrow="Recursos"
+    title="Pagos y "
+    highlight="administración"
+    label="Pagos"
+    breadcrumbs={[{ label: 'Recursos' }]}
+    description="Montos vigentes, formas de pago y cómo reportar tu pago a la administración."
+  >
+    <CasheaBadge href="#cashea-feature" class="mb-6" />
+    <div class="flex flex-wrap gap-3">
+      <Button href={reportHref}>Reportar un pago</Button>
+      <Button href={links.portal} external variant="outline">Portal de representantes</Button>
+    </div>
+  </PageHero>
+
+  <!-- Montos -->
+  <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+    <dl class="grid gap-5 sm:grid-cols-2">
+      {
+        payments.fees.map((fee) => (
+          <div class="reveal flex flex-col-reverse rounded-3xl bg-white p-8 shadow-sm ring-1 ring-navy-100 sm:p-10">
+            <dt class="mt-4">
+              <span class="block font-display text-xl font-bold text-navy-900">{fee.label}</span>
+              <span class="mt-1 block text-slate-500">{fee.note}</span>
+            </dt>
+            <dd class="font-display text-6xl font-extrabold text-navy-900 sm:text-7xl">
+              {fee.amount}
+              <span class="text-4xl text-gold-500 sm:text-5xl">{payments.currency}</span>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <!-- Cashea, protagonista -->
+  <CasheaHighlight variant="feature" />
+
+  <!-- Reportar un pago -->
+  <section id="reportar" class="scroll-mt-24 bg-sky-50/70">
+    <div class="mx-auto grid max-w-7xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[1fr_1.2fr] lg:px-8 lg:py-24">
+      <SectionHeading eyebrow="Reporte de pago" title="¿Ya pagaste? " highlight="Repórtalo">
+        Así la administración registra tu pago y lo refleja en el control del estudiante.
+      </SectionHeading>
+
+      <div class="reveal rounded-3xl bg-navy-900 p-8 sm:p-10">
+        <ol class="space-y-5">
+          {
+            payments.reportSteps.map((step, i) => (
+              <li class="flex gap-4">
+                <span class="grid size-9 shrink-0 place-items-center rounded-full bg-gold-500 font-display font-bold text-navy-900">
+                  {i + 1}
+                </span>
+                <span class="pt-1.5 text-navy-50">{step}</span>
+              </li>
+            ))
+          }
+        </ol>
+        <div class="mt-10 flex flex-col gap-4 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <p class="flex items-center gap-2 text-sm break-all text-navy-200">
+            <Mail size={16} class="shrink-0" aria-hidden="true" />
+            {contact.email}
+          </p>
+          <Button href={reportHref}>Enviar reporte</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dudas -->
+  <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+    <div class="reveal flex flex-col items-start gap-6 rounded-3xl bg-white p-8 shadow-sm ring-1 ring-navy-100 sm:flex-row sm:items-center sm:p-10">
+      <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-navy-900 text-gold-400">
+        <Receipt size={26} aria-hidden="true" />
+      </span>
+      <div class="flex-1">
+        <h2 class="text-2xl">¿Dudas con un pago?</h2>
+        <p class="mt-1 text-slate-600">
+          Escríbenos o llama al <a href={contact.phoneHref} class="font-semibold text-navy-900 underline decoration-gold-400 decoration-2 underline-offset-4">{contact.phone}</a>, {contact.hours.toLowerCase()}.
+        </p>
+      </div>
+      <Button href="/contacto" variant="outline">Contacto</Button>
+    </div>
+  </section>
+</PageLayout>

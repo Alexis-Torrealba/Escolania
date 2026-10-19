@@ -1,0 +1,106 @@
+---
+// Destaca que la Escolanía acepta Cashea (pago en cuotas), con los colores de la marca Cashea.
+// - `band`: franja del Home que lleva a /pagos
+// - `feature`: bloque principal de la página de pagos
+// TODO(contenido): confirmar con administración a qué conceptos aplica y en cuántas cuotas,
+// para concretar el texto. Ícono de Cashea: src/assets/pago/Cashea.png (provisto por la institución).
+import { Image } from 'astro:assets';
+import casheaIcon from '../assets/pago/Cashea.png';
+import Smartphone from '@lucide/astro/icons/smartphone';
+import CalendarCheck from '@lucide/astro/icons/calendar-check';
+import MessageCircleQuestion from '@lucide/astro/icons/message-circle-question-mark';
+import Button from './Button.astro';
+import { payments, formatFee } from '../data/site';
+
+interface Props {
+  variant?: 'band' | 'feature';
+}
+
+const { variant = 'band' } = Astro.props;
+const steps = [
+  { icon: Smartphone, text: 'Usa tu cuenta de Cashea al momento de pagar' },
+  { icon: CalendarCheck, text: 'Divide el monto en cuotas' },
+  { icon: MessageCircleQuestion, text: 'Consulta las condiciones en administración' },
+];
+---
+
+<section
+  class:list={['px-4 sm:px-6 lg:px-8', variant === 'band' ? 'pb-24 lg:pb-32' : 'pb-20 lg:pb-28']}
+  aria-labelledby={`cashea-${variant}`}
+>
+  <div
+    class="reveal relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-cashea px-6 py-12 text-cashea-ink sm:px-12 lg:px-16 lg:py-16"
+  >
+    <!-- Decoración: «cuotas» como bloques que se van llenando -->
+    <div class="pointer-events-none absolute -right-10 -bottom-10 flex rotate-[-8deg] gap-3 opacity-15" aria-hidden="true">
+      {[1, 0.75, 0.5, 0.25].map((o) => <span class="block h-40 w-16 rounded-2xl bg-cashea-ink" style={{ opacity: o }} />)}
+    </div>
+
+    <div class="relative grid items-center gap-10 lg:grid-cols-[1.3fr_1fr]">
+      <div>
+        <div class="flex items-center gap-4">
+          <!-- Ícono de la app: el amarillo del PNG se funde con el fondo, por eso lleva borde y sombra -->
+          <Image
+            src={casheaIcon}
+            alt="Cashea"
+            width={160}
+            height={160}
+            class="size-16 shrink-0 rounded-2xl shadow-xl shadow-cashea-ink/15 ring-2 ring-cashea-ink sm:size-20 sm:rounded-3xl"
+          />
+          <p class="rounded-full bg-cashea-ink px-4 py-1.5 text-xs font-bold tracking-[0.2em] text-cashea uppercase">
+            Paga en cuotas
+          </p>
+        </div>
+        <h2 id={`cashea-${variant}`} class="mt-6 scroll-mt-32 text-4xl leading-tight text-cashea-ink sm:text-5xl">
+          ¡Contamos con <span class="underline decoration-cashea-ink decoration-4 underline-offset-8">Cashea</span>!
+        </h2>
+        <p class="mt-5 max-w-xl text-lg">
+          Ahora puedes pagar en cuotas los compromisos con la Escolanía. Más facilidades para que tu hijo siga
+          formándose con nosotros.
+        </p>
+
+        {
+          variant === 'band' ? (
+            <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+              <Button href="/pagos" variant="cashea">
+                Ver pagos y montos
+              </Button>
+              <p class="text-sm font-semibold">
+                Inscripción {formatFee(payments.fees[0].amount)} · Mensualidad {formatFee(payments.fees[1].amount)}
+              </p>
+            </div>
+          ) : (
+            <div class="mt-8">
+              <Button href="#reportar" variant="cashea">
+                Cómo reportar tu pago
+              </Button>
+            </div>
+          )
+        }
+      </div>
+
+      <ol class="space-y-3">
+        {
+          steps.map(({ icon: Icon, text }, i) => (
+            <li class="flex items-center gap-4 rounded-2xl bg-white/70 p-4 ring-1 ring-cashea-ink/10">
+              <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-cashea-ink text-cashea">
+                <Icon size={20} aria-hidden="true" />
+              </span>
+              <span class="font-medium">
+                <span class="sr-only">Paso {i + 1}: </span>
+                {text}
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* El foco del sitio es dorado; sobre el amarillo de Cashea no se vería */
+  section :global(a:focus-visible) {
+    outline-color: var(--color-cashea-ink);
+  }
+</style>

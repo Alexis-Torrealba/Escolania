@@ -50,6 +50,7 @@ export const mainNav: NavItem[] = [
     label: 'Recursos',
     children: [
       { label: 'Horarios', href: '/horarios', description: 'Clases y extracátedras' },
+      { label: 'Pagos', href: '/pagos', description: 'Montos, Cashea y reporte de pago' },
       { label: 'Documentos', href: '/documentos', description: 'Acuerdos de convivencia y planillas' },
       { label: 'Portal de representantes', href: links.portal, description: 'Pagos, notas e inscripciones', external: true },
     ],
