@@ -41,7 +41,7 @@ export const mainNav: NavItem[] = [
   {
     label: 'Vida escolar',
     children: [
-      { label: 'Extracátedras', href: '/actividades', description: 'Deporte, música, danza y teatro' },
+      { label: 'Extracátedras', href: '/actividades', description: 'Ajedrez y danza' },
       { label: 'Bienestar estudiantil', href: '/bienestar', description: 'Psicopedagogía, salud y labor social' },
       { label: 'Infraestructura', href: '/infraestructura', description: 'Nuestras instalaciones' },
       { label: 'La voz del escolano', href: '/la-voz-del-escolano', description: 'Noticias y vivencias' },

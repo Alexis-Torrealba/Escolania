@@ -32,5 +32,5 @@ export const stats: { value: string | null; label: string }[] = [
   { value: null, label: 'Años de trayectoria' },
   { value: null, label: 'Estudiantes' },
   { value: null, label: 'Docentes' },
-  { value: '9', label: 'Actividades extracátedra' },
+  { value: '3', label: 'Niveles educativos' },
 ];

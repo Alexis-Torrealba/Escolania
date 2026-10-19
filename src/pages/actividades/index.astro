@@ -1,0 +1,102 @@
+---
+import Check from '@lucide/astro/icons/check';
+import CalendarDays from '@lucide/astro/icons/calendar-days';
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Button from '../../components/Button.astro';
+import ActivityMedia from '../../components/ActivityMedia.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import { activities } from '../../data/activities';
+---
+
+<PageLayout
+  title="Extracátedras"
+  description="Ajedrez y danza: las actividades extracátedra de la U.E.P. Escolanía para desarrollar la mente, el arte y la expresión de nuestros escolanos."
+>
+  <PageHero
+    eyebrow="Vida escolar"
+    title="Extracátedras: más que "
+    highlight="clases"
+    label="Extracátedras"
+    breadcrumbs={[{ label: 'Vida escolar' }]}
+    description="Dentro de nuestro proyecto educativo, las actividades extracátedra permiten a los escolanos divertirse desarrollando su ingenio y sus talentos, aprender a expresar sus emociones y fortalecer su personalidad."
+  >
+    <Button href="/horarios" variant="outline">
+      <CalendarDays size={16} aria-hidden="true" />
+      Ver horarios
+    </Button>
+  </PageHero>
+
+  <section class="mx-auto max-w-7xl space-y-24 px-4 pb-24 sm:px-6 lg:space-y-32 lg:px-8 lg:pb-32">
+    {
+      activities.map((a, i) => (
+        <article class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <a
+            href={`/actividades/${a.slug}`}
+            class:list={['group reveal relative block', i % 2 === 1 && 'lg:order-2']}
+            tabindex="-1"
+            aria-hidden="true"
+          >
+            <div
+              class:list={[
+                'absolute -inset-3 rounded-[2.5rem] bg-gold-200/50',
+                i % 2 === 1 ? '-rotate-2' : 'rotate-2',
+              ]}
+            />
+            <div class="relative overflow-hidden rounded-[2rem] shadow-2xl shadow-navy-900/15">
+              <ActivityMedia
+                activity={a}
+                widths={[480, 720, 960]}
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                class="aspect-4/3 w-full transition-transform duration-700 ease-out-expo group-hover:scale-105"
+              />
+            </div>
+          </a>
+
+          <div class="reveal">
+            <p class="text-xs font-bold tracking-[0.25em] text-gold-600 uppercase">{a.tagline}</p>
+            <h2 class="mt-3 text-4xl sm:text-5xl">{a.name}</h2>
+            {a.minAge !== undefined && (
+              <p class="mt-4 inline-block rounded-full bg-gold-500 px-3 py-1 text-sm font-bold text-navy-900">
+                Desde {a.minAge} años
+              </p>
+            )}
+            <p class="mt-6 text-lg leading-relaxed">{a.description}</p>
+            <ul class="mt-6 flex flex-wrap gap-2">
+              {a.learn.map((item) => (
+                <li class="flex items-center gap-1.5 rounded-full bg-sky-50 px-3 py-1.5 text-sm font-medium text-navy-900 ring-1 ring-navy-100">
+                  <Check size={14} class="text-gold-600" aria-hidden="true" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <Button href={`/actividades/${a.slug}`} variant="secondary">
+                Conocer {a.name.toLowerCase()}
+              </Button>
+              {a.signupUrl ? (
+                <Button href={a.signupUrl} external variant="outline">
+                  Inscríbete
+                </Button>
+              ) : (
+                <Button href="/contacto" variant="outline">
+                  Pide información
+                </Button>
+              )}
+            </div>
+          </div>
+        </article>
+      ))
+    }
+
+    <blockquote class="reveal mx-auto max-w-3xl text-center">
+      <p class="font-display text-2xl leading-snug font-semibold text-balance text-navy-900 sm:text-3xl">
+        «Estamos convencidos de que los niños que usan su talento son más felices, disfrutan lo que hacen y logran
+        <span class="text-gold-500">grandes cosas</span>».
+      </p>
+      <footer class="mt-5 text-slate-500">Nuestro compromiso: la formación integral de cada escolano</footer>
+    </blockquote>
+  </section>
+
+  <CallToAction />
+</PageLayout>

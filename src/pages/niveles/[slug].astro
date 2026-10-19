@@ -1,0 +1,143 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
+import ArrowUpRight from '@lucide/astro/icons/arrow-up-right';
+import BookOpen from '@lucide/astro/icons/book-open';
+import GraduationCap from '@lucide/astro/icons/graduation-cap';
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Button from '../../components/Button.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import PillarIcon from '../../components/PillarIcon.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import { levels, pillars, type Level } from '../../data/education';
+import { links } from '../../data/site';
+
+export const getStaticPaths = (() =>
+  levels.map((level) => ({ params: { slug: level.slug }, props: { level } }))) satisfies GetStaticPaths;
+
+interface Props {
+  level: Level;
+}
+
+const { level } = Astro.props;
+const others = levels.filter((l) => l.slug !== level.slug);
+---
+
+<PageLayout title={level.title} description={`${level.title} (${level.grades}) en la U.E.P. Escolanía. ${level.description}`}>
+  <PageHero
+    eyebrow={level.grades}
+    title={level.title}
+    breadcrumbs={[{ label: 'Niveles' }]}
+    description={level.description}
+    image={level.image}
+    imageAlt={level.imageAlt}
+  >
+    <div class="flex flex-wrap gap-3">
+      <Button href={links.portal} external>Solicitar cupo</Button>
+      <Button href="/horarios" variant="outline">Ver horarios</Button>
+    </div>
+  </PageHero>
+
+  <!-- Grados y materias -->
+  <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <div class="grid gap-14 lg:grid-cols-2 lg:gap-20">
+      <div>
+        <SectionHeading eyebrow="Recorrido" title={level.tagline} />
+        <ol class="reveal relative mt-10 space-y-4 border-l-2 border-dashed border-navy-100 pl-8">
+          {
+            level.stages.map((stage, i) => (
+              <li class="relative">
+                <span class="absolute top-1/2 -left-[2.6rem] grid size-5 -translate-y-1/2 place-items-center rounded-full bg-white ring-2 ring-gold-500">
+                  <span class="size-2 rounded-full bg-gold-500" />
+                </span>
+                <div class="flex items-center justify-between rounded-2xl bg-white px-5 py-4 shadow-sm ring-1 ring-navy-100">
+                  <span class="font-display font-semibold text-navy-900">{stage}</span>
+                  {i === level.stages.length - 1 && (
+                    <GraduationCap size={20} class="text-gold-600" aria-label="Último del nivel" />
+                  )}
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+
+      <div class="reveal h-fit rounded-3xl bg-navy-900 p-8 sm:p-10">
+        <p class="flex items-center gap-2 text-xs font-bold tracking-[0.25em] text-gold-300 uppercase">
+          <BookOpen size={14} aria-hidden="true" />
+          {level.subjectsLabel}
+        </p>
+        <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+          {
+            level.subjects.map((subject) => (
+              <li class="rounded-xl bg-white/5 px-4 py-3 text-sm font-medium text-white ring-1 ring-white/10">
+                {subject}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Las cuatro columnas -->
+  <section class="bg-sky-50/70">
+    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+      <SectionHeading eyebrow="En cada etapa" title="Nuestras cuatro " highlight="columnas" align="center">
+        La formación integral que distingue a la Escolanía acompaña a nuestros escolanos en todos los niveles.
+      </SectionHeading>
+      <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          pillars.map((p) => (
+            <li class="reveal rounded-3xl bg-white p-6 shadow-sm ring-1 ring-navy-100">
+              <span class="grid size-12 place-items-center rounded-2xl bg-navy-900 text-gold-400">
+                <PillarIcon name={p.icon} size={22} />
+              </span>
+              <h3 class="mt-5 text-lg">{p.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">{p.summary}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Otros niveles -->
+  <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+    <h2 class="reveal text-2xl sm:text-3xl">Conoce los otros niveles</h2>
+    <ul class="mt-8 grid gap-5 sm:grid-cols-2">
+      {
+        others.map((l) => (
+          <li class="reveal">
+            <a
+              href={`/niveles/${l.slug}`}
+              class="group flex items-center gap-5 rounded-3xl bg-white p-4 shadow-sm ring-1 ring-navy-100 transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:shadow-xl hover:shadow-navy-900/10"
+            >
+              <Image
+                src={l.image}
+                alt=""
+                widths={[160, 240]}
+                sizes="7rem"
+                class="aspect-square w-24 shrink-0 rounded-2xl object-cover sm:w-28"
+              />
+              <div class="flex-1">
+                <p class="text-xs font-semibold text-gold-600">{l.grades}</p>
+                <h3 class="mt-1 text-xl">{l.title}</h3>
+                <p class="mt-1 text-sm text-slate-500">{l.tagline}</p>
+              </div>
+              <span class="mr-2 grid size-11 shrink-0 place-items-center rounded-full ring-1 ring-navy-100 transition-all duration-300 group-hover:bg-gold-500 group-hover:ring-gold-500">
+                <ArrowUpRight
+                  size={18}
+                  class="text-navy-900 transition-transform duration-300 group-hover:rotate-45"
+                />
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <CallToAction />
+</PageLayout>

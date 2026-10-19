@@ -1,0 +1,147 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Check from '@lucide/astro/icons/check';
+import Sparkles from '@lucide/astro/icons/sparkles';
+import ClipboardPen from '@lucide/astro/icons/clipboard-pen';
+import ArrowUpRight from '@lucide/astro/icons/arrow-up-right';
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Button from '../../components/Button.astro';
+import ActivityMedia from '../../components/ActivityMedia.astro';
+import { activities, type Activity } from '../../data/activities';
+
+export const getStaticPaths = (() =>
+  activities.map((activity) => ({ params: { slug: activity.slug }, props: { activity } }))) satisfies GetStaticPaths;
+
+interface Props {
+  activity: Activity;
+}
+
+const { activity } = Astro.props;
+const others = activities.filter((a) => a.slug !== activity.slug);
+const listFormat = new Intl.ListFormat('es', { type: 'conjunction' });
+// Sin formulario propio, la inscripción se gestiona por Contacto
+const signup = activity.signupUrl
+  ? { href: activity.signupUrl, external: true, hint: 'La inscripción se hace en línea' }
+  : { href: '/contacto', external: false, hint: 'Escríbenos y te contamos cómo inscribirte' };
+const ages = activity.minAge !== undefined ? ` para escolanos desde ${activity.minAge} años` : '';
+---
+
+<PageLayout
+  title={activity.name}
+  description={`${activity.name}, actividad extracátedra de la U.E.P. Escolanía${ages}. ${activity.tagline}.`}
+>
+  <PageHero
+    eyebrow={activity.tagline}
+    title={activity.name}
+    breadcrumbs={[{ label: 'Extracátedras', href: '/actividades' }]}
+  >
+    {
+      activity.groups.length > 0 && (
+        <dl class="mb-8 flex flex-wrap gap-3">
+          {activity.groups.map((g) => (
+            <div class="flex items-center gap-3 rounded-2xl bg-white p-3 pr-5 shadow-sm ring-1 ring-navy-100">
+              <dt class="grid size-12 shrink-0 place-items-center rounded-xl bg-gold-500 font-display leading-none font-extrabold text-navy-900">
+                <span class="sr-only">Desde</span>
+                {g.fromAge}+
+              </dt>
+              <dd class="text-sm">
+                <span class="block text-slate-500">Desde {g.fromAge} años, con</span>
+                <span class="font-semibold text-navy-900">{listFormat.format(g.teachers)}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
+    <Button href={signup.href} external={signup.external}>Inscríbete aquí</Button>
+
+    <ActivityMedia
+      slot="media"
+      activity={activity}
+      widths={[480, 720, 960]}
+      sizes="(min-width: 1024px) 45vw, 100vw"
+      loading="eager"
+      class="aspect-4/3 w-full"
+    />
+  </PageHero>
+
+  <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <div class="grid gap-14 lg:grid-cols-[1.4fr_1fr]">
+      <div class="reveal">
+        <p class="text-xs font-bold tracking-[0.25em] text-gold-600 uppercase">Sobre la actividad</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl">¿Por qué {activity.name.toLowerCase()}?</h2>
+        <p class="mt-6 text-lg leading-relaxed">{activity.description}</p>
+        {
+          activity.note && (
+            <p class="mt-8 flex gap-4 rounded-2xl bg-gold-50 p-5 text-navy-900 ring-1 ring-gold-200">
+              <Sparkles size={22} class="mt-0.5 shrink-0 text-gold-600" aria-hidden="true" />
+              {activity.note}
+            </p>
+          )
+        }
+      </div>
+
+      <aside class="reveal h-fit rounded-3xl bg-navy-900 p-8 text-white sm:p-10">
+        <h2 class="text-2xl text-white">¿Qué aprenderás?</h2>
+        <ul class="mt-6 space-y-4">
+          {
+            activity.learn.map((item) => (
+              <li class="flex gap-3">
+                <span class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-gold-500 text-navy-900">
+                  <Check size={14} stroke-width={3} aria-hidden="true" />
+                </span>
+                <span class="text-navy-50">{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="mt-10 border-t border-white/10 pt-8">
+          <p class="flex items-center gap-2 text-sm text-navy-200">
+            <ClipboardPen size={16} aria-hidden="true" />
+            {signup.hint}
+          </p>
+          <Button href={signup.href} external={signup.external} class="mt-4">Inscribir a mi hijo</Button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {
+    others.length > 0 && (
+      <section class="bg-sky-50/70">
+        <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+          <h2 class="reveal text-2xl sm:text-3xl">También en extracátedras</h2>
+          <ul class="mt-8 grid gap-5 sm:grid-cols-2">
+            {others.map((a) => (
+              <li class="reveal">
+                <a
+                  href={`/actividades/${a.slug}`}
+                  class="group flex items-center gap-5 rounded-3xl bg-white p-4 shadow-sm ring-1 ring-navy-100 transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:shadow-xl hover:shadow-navy-900/10"
+                >
+                  <ActivityMedia
+                    activity={a}
+                    widths={[160, 240]}
+                    sizes="7rem"
+                    class="aspect-square w-24 shrink-0 rounded-2xl sm:w-28"
+                  />
+                  <div class="flex-1">
+                    <p class="text-xs font-semibold text-gold-600">{a.tagline}</p>
+                    <h3 class="mt-1 text-xl">{a.name}</h3>
+                    {a.minAge !== undefined && <p class="mt-1 text-sm text-slate-500">Desde {a.minAge} años</p>}
+                  </div>
+                  <span class="mr-2 grid size-11 shrink-0 place-items-center rounded-full ring-1 ring-navy-100 transition-all duration-300 group-hover:bg-gold-500 group-hover:ring-gold-500">
+                    <ArrowUpRight
+                      size={18}
+                      class="text-navy-900 transition-transform duration-300 group-hover:rotate-45"
+                    />
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+</PageLayout>
