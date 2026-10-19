@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+/* Fuentes self-hosted (se sirven desde nuestro dominio, sin Google Fonts) */
+@import "@fontsource-variable/plus-jakarta-sans";
+@import "@fontsource-variable/inter";
+@import "@fontsource/caveat/latin-600.css";
+
+/* ------------------------------------------------------------------
+   Design tokens
+   Cada variable --color-* / --font-* / --animate-* genera utilidades:
+   --color-navy-900 → bg-navy-900, text-navy-900, border-navy-900…
+   ------------------------------------------------------------------ */
+@theme {
+  /* Navy institucional. Marca = 900 (#0D1E5B, color principal en Divi) */
+  --color-navy-50: #eef1fa;
+  --color-navy-100: #dde3f4;
+  --color-navy-200: #bcc7e9;
+  --color-navy-300: #93a3d8;
+  --color-navy-400: #6779be;
+  --color-navy-500: #4659a3;
+  --color-navy-600: #334486;
+  --color-navy-700: #26356f;
+  --color-navy-800: #1a2963;
+  --color-navy-900: #0d1e5b;
+  --color-navy-950: #070f33;
+
+  /* Dorado de acento. Marca = 500 (#B49217, paleta de Divi).
+     Contraste: blanco sobre gold-500 = 3:1 (no apto para texto normal);
+     navy-900 sobre gold-500 = 5.2:1 ✅ → botones dorados llevan texto navy. */
+  --color-gold-50: #fbf8ea;
+  --color-gold-100: #f6eec9;
+  --color-gold-200: #eedb94;
+  --color-gold-300: #e0c75e;
+  --color-gold-400: #cfae35;
+  --color-gold-500: #b49217;
+  --color-gold-600: #967812;
+  --color-gold-700: #775e12;
+  --color-gold-800: #5f4b14;
+  --color-gold-900: #4f3f15;
+
+  /* Celeste del escudo. Marca = 200 (#C8DCF8). Para fondos suaves. */
+  --color-sky-50: #f4f8fe;
+  --color-sky-100: #e6effc;
+  --color-sky-200: #c8dcf8;
+  --color-sky-300: #a3c3f2;
+  --color-sky-400: #77a3e9;
+
+  --font-display: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-script: "Caveat", cursive;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Animaciones de entrada → animate-fade-up, animate-fade-in, animate-scale-in */
+  --animate-fade-up: fade-up 0.8s var(--ease-out-expo) both;
+  --animate-fade-in: fade-in 0.8s ease-out both;
+  --animate-scale-in: scale-in 0.6s var(--ease-out-expo) both;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(1.5rem);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.94);
+    }
+  }
+  @keyframes float {
+    50% {
+      transform: translateY(-0.5rem);
+    }
+  }
+}
+
+/* ------------------------------------------------------------------
+   Utilidades propias
+   ------------------------------------------------------------------ */
+
+/* animate-delay-150 → animation-delay: 150ms (para escalonar elementos).
+   --value(integer) toma el número que escribes después del guion. */
+@utility animate-delay-* {
+  animation-delay: calc(--value(integer) * 1ms);
+}
+
+/* reveal: el elemento aparece al entrar en pantalla con el scroll.
+   Solo CSS (scroll-driven animations), sin JavaScript. Si el navegador
+   no lo soporta o el usuario pidió menos movimiento, se ve normal. */
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: fade-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 25%;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------
+   Estilos base
+   ------------------------------------------------------------------ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white font-sans text-slate-700 antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-bold tracking-tight text-navy-900 text-balance;
+  }
+
+  ::selection {
+    @apply bg-gold-200 text-navy-900;
+  }
+
+  /* Accesibilidad: si el sistema pide reducir movimiento, apagamos todo */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

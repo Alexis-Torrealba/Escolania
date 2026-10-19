@@ -1,0 +1,34 @@
+---
+// Único lugar donde se usa el escudo: cuando llegue la versión SVG, se cambia aquí.
+import { Image } from 'astro:assets';
+import escudo from '../assets/brand/escudo.png';
+import { site } from '../data/site';
+
+interface Props {
+  size?: number;
+  withText?: boolean;
+  class?: string;
+}
+
+const { size = 56, withText = true, class: className } = Astro.props;
+---
+
+<a href="/" class:list={['group inline-flex items-center gap-3', className]} aria-label={`${site.name}, ir al inicio`}>
+  <Image
+    src={escudo}
+    alt=""
+    width={size}
+    height={size}
+    class="transition-transform duration-500 ease-out-expo group-hover:scale-105"
+    densities={[1, 2]}
+    loading="eager"
+  />
+  {
+    withText && (
+      <span class="leading-tight">
+        <span class="block font-display text-lg font-extrabold text-navy-900">Escolanía</span>
+        <span class="block text-xs font-medium tracking-wide text-slate-500">Niños Cantores de La Guaira</span>
+      </span>
+    )
+  }
+</a>
