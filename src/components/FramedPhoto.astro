@@ -1,0 +1,29 @@
+---
+// Foto antigua enmarcada tipo polaroid. Las fotos de archivo son pequeñas (~300 px),
+// así que nunca se muestran más grandes que su tamaño original.
+import { Image } from 'astro:assets';
+import type { Photo } from '../data/about';
+
+interface Props {
+  photo: Photo;
+  /** Inclinación en grados para dar aire de álbum */
+  tilt?: number;
+  class?: string;
+}
+
+const { photo, tilt = 0, class: className } = Astro.props;
+---
+
+<figure
+  class:list={['w-fit max-w-full rounded-sm bg-white p-3 pb-4 shadow-xl shadow-navy-900/10 ring-1 ring-navy-100', className]}
+  style={tilt ? { transform: `rotate(${tilt}deg)` } : undefined}
+>
+  <Image
+    src={photo.src}
+    alt={photo.alt}
+    width={photo.src.width}
+    class="h-auto w-full max-w-(--photo-w) sepia-[.15]"
+    style={{ '--photo-w': `${photo.src.width}px` }}
+  />
+  {photo.caption && <figcaption class="mt-3 text-center font-script text-xl text-navy-700">{photo.caption}</figcaption>}
+</figure>

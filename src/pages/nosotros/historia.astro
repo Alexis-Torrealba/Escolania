@@ -1,0 +1,125 @@
+---
+import CalendarDays from '@lucide/astro/icons/calendar-days';
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import FramedPhoto from '../../components/FramedPhoto.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import {
+  foundingYear,
+  historyIntro,
+  milestones,
+  directorsTimeline,
+  traditions,
+  historyClosing,
+} from '../../data/about';
+
+const years = new Date().getFullYear() - foundingYear;
+---
+
+<PageLayout
+  title="Historia"
+  description={`Desde ${foundingYear}, la primera Escolanía de Venezuela forma niños y jóvenes en Guaracarumbo, La Guaira. Conoce nuestra historia.`}
+>
+  <PageHero
+    eyebrow="Nosotros"
+    title="Más de tres décadas formando "
+    highlight="escolanos"
+    label="Historia"
+    breadcrumbs={[{ label: 'Nosotros' }]}
+    description={historyIntro[0]}
+  >
+    <dl class="flex flex-wrap gap-8">
+      <div>
+        <dt class="text-sm text-slate-500">Fundación</dt>
+        <dd class="font-display text-4xl font-extrabold text-navy-900">{foundingYear}</dd>
+      </div>
+      <div class="w-px bg-navy-100" aria-hidden="true"></div>
+      <div>
+        <dt class="text-sm text-slate-500">Años de trayectoria</dt>
+        <dd class="font-display text-4xl font-extrabold text-gold-500">{years}</dd>
+      </div>
+    </dl>
+  </PageHero>
+
+  <AboutNav />
+
+  <!-- Línea de tiempo -->
+  <section class="mx-auto max-w-5xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <SectionHeading eyebrow="Nuestro camino" title="Los primeros " highlight="años">
+      {historyIntro[1]}
+    </SectionHeading>
+
+    <ol class="relative mt-16 space-y-14 border-l-2 border-dashed border-navy-100 pl-8 sm:pl-12">
+      {
+        milestones.map((m, i) => (
+          <li class="reveal relative">
+            <span
+              class="absolute top-1 -left-[2.65rem] grid size-5 place-items-center rounded-full bg-white ring-2 ring-gold-500 sm:-left-[3.65rem]"
+              aria-hidden="true"
+            >
+              <span class="size-2 rounded-full bg-gold-500" />
+            </span>
+            <div class:list={['grid gap-8', m.photo && 'md:grid-cols-[1fr_auto] md:items-start']}>
+              <div>
+                <p class="flex items-center gap-2 text-sm font-bold text-gold-600">
+                  <CalendarDays size={15} aria-hidden="true" />
+                  {m.date}
+                </p>
+                <h3 class="mt-2 text-2xl">{m.title}</h3>
+                <p class="mt-3 max-w-xl leading-relaxed">{m.text}</p>
+              </div>
+              {m.photo && <FramedPhoto photo={m.photo} tilt={i % 2 ? 2 : -2} class="md:w-60" />}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- Directores -->
+  <section class="bg-navy-900">
+    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+      <SectionHeading eyebrow="Quienes nos han guiado" title="Directivos a lo largo del " highlight="tiempo" tone="dark" />
+      <ol class="mt-12 grid gap-5 md:grid-cols-3">
+        {
+          directorsTimeline.map((era) => (
+            <li class="reveal rounded-3xl bg-white/5 p-7 ring-1 ring-white/10">
+              <p class="font-display text-2xl font-extrabold text-gold-400">{era.period}</p>
+              <ul class="mt-4 space-y-2 text-navy-100">
+                {era.names.map((name) => (
+                  <li>{name}</li>
+                ))}
+              </ul>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- Tradiciones -->
+  <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <SectionHeading eyebrow="Tradiciones" title="Fechas que nos " highlight="identifican" align="center" />
+    <ul class="mt-12 grid gap-5 md:grid-cols-3">
+      {
+        traditions.map((t) => (
+          <li class="reveal rounded-3xl bg-sky-50/70 p-7 ring-1 ring-navy-100">
+            <p class="inline-block rounded-full bg-gold-500 px-3 py-1 text-xs font-bold text-navy-900">{t.date}</p>
+            <h3 class="mt-4 text-xl">{t.title}</h3>
+            <p class="mt-2 text-slate-600">{t.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <blockquote class="reveal mx-auto mt-24 max-w-3xl text-center">
+      <p class="font-display text-xl leading-relaxed font-medium text-balance text-navy-900 sm:text-2xl">
+        {historyClosing}
+      </p>
+    </blockquote>
+  </section>
+
+  <CallToAction />
+</PageLayout>

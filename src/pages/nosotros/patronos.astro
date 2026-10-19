@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import CalendarDays from '@lucide/astro/icons/calendar-days';
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import { patrons } from '../../data/about';
+---
+
+<PageLayout
+  title="Patronos"
+  description="Santo Domingo Savio y el Santo Hermano Miguel, patronos de la U.E.P. Escolanía «Niños Cantores de La Guaira»."
+>
+  <PageHero
+    eyebrow="Nosotros"
+    title="Quienes inspiran nuestra "
+    highlight="obra"
+    label="Patronos"
+    breadcrumbs={[{ label: 'Nosotros' }]}
+    description="Dos santos educadores acompañan a la Escolanía desde su fundación: un alumno ejemplar y un maestro incansable."
+  />
+
+  <AboutNav />
+
+  <div class="mx-auto max-w-6xl space-y-24 px-4 py-20 sm:px-6 lg:space-y-32 lg:px-8 lg:py-28">
+    {
+      patrons.map((p, i) => (
+        <article class="grid items-center gap-12 md:grid-cols-[auto_1fr] md:gap-16">
+          <div class:list={['reveal relative mx-auto', i % 2 === 1 && 'md:order-2']}>
+            <div class="absolute -inset-4 rounded-t-full rounded-b-3xl bg-gold-200/60" aria-hidden="true" />
+            {/* Las estampas originales miden ~200 px: se muestran a ese tamaño para no pixelarlas */}
+            <Image
+              src={p.photo.src}
+              alt={p.photo.alt}
+              width={p.photo.src.width}
+              class="relative h-56 w-auto rounded-t-full rounded-b-2xl shadow-2xl shadow-navy-900/20 ring-4 ring-white"
+            />
+          </div>
+
+          <div class="reveal">
+            <div class="flex flex-wrap items-center gap-3">
+              <span class="rounded-full bg-navy-900 px-3 py-1 text-xs font-bold tracking-wider text-white uppercase">
+                {p.role}
+              </span>
+              <span class="flex items-center gap-1.5 text-sm font-semibold text-gold-600">
+                <CalendarDays size={15} aria-hidden="true" />
+                Se celebra el {p.feast}
+              </span>
+            </div>
+            <h2 class="mt-4 text-4xl sm:text-5xl">{p.name}</h2>
+            <div class="mt-6 space-y-4 text-lg leading-relaxed">
+              {p.paragraphs.map((text) => (
+                <p>{text}</p>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+
+  <CallToAction />
+</PageLayout>

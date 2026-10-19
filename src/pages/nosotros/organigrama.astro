@@ -1,0 +1,93 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import { orgChart } from '../../data/about';
+
+const { director, administration, academic } = orgChart;
+---
+
+<PageLayout
+  title="Organigrama"
+  description="Cómo se organiza la U.E.P. Escolanía: dirección general, administrativa y académica, departamentos y coordinaciones."
+>
+  <PageHero
+    eyebrow="Nosotros"
+    title="Cómo nos "
+    highlight="organizamos"
+    label="Organigrama"
+    breadcrumbs={[{ label: 'Nosotros' }]}
+    description="La Dirección General guía dos grandes áreas: la administrativa, que sostiene la institución, y la académica, que acompaña día a día a nuestros escolanos."
+  />
+
+  <AboutNav />
+
+  <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28" aria-label="Organigrama institucional">
+    <!-- Dirección General -->
+    <div class="reveal mx-auto max-w-sm rounded-3xl bg-navy-900 p-6 text-center shadow-xl shadow-navy-900/20">
+      <p class="text-xs font-bold tracking-[0.2em] text-gold-300 uppercase">{director.title}</p>
+      <p class="mt-2 font-display text-xl font-bold text-white">{director.name}</p>
+    </div>
+    <div class="connector mx-auto h-10" aria-hidden="true"></div>
+
+    <div class="grid gap-12 lg:grid-cols-[1fr_2.2fr] lg:gap-8">
+      <!-- Área administrativa -->
+      <div class="branch">
+        <div class="reveal rounded-3xl bg-gold-500 p-6 text-center">
+          <p class="text-xs font-bold tracking-[0.2em] text-navy-800 uppercase">{administration.head.title}</p>
+          <p class="mt-2 font-display text-lg font-bold text-navy-950">{administration.head.name}</p>
+        </div>
+        <div class="connector mx-auto h-8" aria-hidden="true"></div>
+        <ul class="space-y-3">
+          {
+            administration.departments.map((d) => (
+              <li class="reveal rounded-2xl bg-white px-5 py-4 text-center shadow-sm ring-1 ring-navy-100">
+                <p class="text-xs text-slate-500">Departamento de</p>
+                <p class="font-display font-semibold text-navy-900">{d.title}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Área académica -->
+      <div class="branch">
+        <div class="reveal mx-auto max-w-md rounded-3xl bg-gold-500 p-6 text-center">
+          <p class="text-xs font-bold tracking-[0.2em] text-navy-800 uppercase">{academic.head.title}</p>
+          <p class="mt-2 font-display text-lg font-bold text-navy-950">{academic.head.name}</p>
+        </div>
+        <div class="connector mx-auto h-8" aria-hidden="true"></div>
+        <div class="reveal mx-auto max-w-xs rounded-2xl bg-navy-50 px-5 py-4 text-center ring-1 ring-navy-100">
+          <p class="font-display font-semibold text-navy-900">{academic.subdirection.title}</p>
+        </div>
+        <div class="connector mx-auto h-8" aria-hidden="true"></div>
+
+        <ul class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {
+            academic.coordinations.map((c) => (
+              <li class="reveal flex flex-col rounded-2xl bg-white p-5 shadow-sm ring-1 ring-navy-100">
+                <p class="font-display font-semibold text-navy-900">{c.title}</p>
+                {c.children && (
+                  <ul class="mt-3 flex flex-wrap gap-1.5">
+                    {c.children.map((child) => (
+                      <li class="rounded-full bg-sky-50 px-2.5 py-1 text-xs text-navy-700 ring-1 ring-navy-100">
+                        {child}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .connector {
+    width: 2px;
+    background: repeating-linear-gradient(to bottom, var(--color-gold-400) 0 6px, transparent 6px 10px);
+  }
+</style>

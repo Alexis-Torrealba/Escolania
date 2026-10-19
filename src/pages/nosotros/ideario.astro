@@ -1,0 +1,205 @@
+---
+import { Image } from 'astro:assets';
+import Target from '@lucide/astro/icons/target';
+import Eye from '@lucide/astro/icons/eye';
+import Check from '@lucide/astro/icons/check';
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import escudo from '../../assets/brand/escudo.png';
+import {
+  leadership,
+  mission,
+  vision,
+  definitions,
+  aims,
+  objectives,
+  anthem,
+  banner,
+  shieldIntro,
+  shieldParts,
+} from '../../data/about';
+
+const colors = [
+  { name: 'Azul del cielo y del mar', class: 'bg-navy-900' },
+  { name: 'Celeste', class: 'bg-sky-200' },
+  { name: 'Amarillo del sol', class: 'bg-gold-500' },
+];
+---
+
+<PageLayout
+  title="Ideario"
+  description="Misión, visión, fines, himno y símbolos de la U.E.P. Escolanía «Niños Cantores de La Guaira»."
+>
+  <PageHero
+    eyebrow="Nosotros"
+    title="Nuestro "
+    highlight="ideario"
+    label="Ideario"
+    breadcrumbs={[{ label: 'Nosotros' }]}
+    description="Lo que creemos, lo que buscamos y los símbolos que nos identifican como familia escolana."
+  />
+
+  <AboutNav />
+
+  <!-- Misión y visión -->
+  <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <div class="grid gap-6 lg:grid-cols-2">
+      <article class="reveal rounded-3xl bg-navy-900 p-8 sm:p-10">
+        <span class="grid size-12 place-items-center rounded-2xl bg-gold-500 text-navy-900">
+          <Target size={22} aria-hidden="true" />
+        </span>
+        <h2 class="mt-6 text-3xl text-white">Misión</h2>
+        <p class="mt-4 text-lg leading-relaxed text-navy-100">{mission}</p>
+      </article>
+      <article class="reveal rounded-3xl bg-sky-50/70 p-8 ring-1 ring-navy-100 sm:p-10">
+        <span class="grid size-12 place-items-center rounded-2xl bg-navy-900 text-gold-400">
+          <Eye size={22} aria-hidden="true" />
+        </span>
+        <h2 class="mt-6 text-3xl">Visión</h2>
+        <p class="mt-4 text-lg leading-relaxed">{vision}</p>
+      </article>
+    </div>
+
+    <!-- Definiciones -->
+    <div class="mt-20 grid gap-10 lg:grid-cols-[1fr_2fr] lg:items-center">
+      <SectionHeading eyebrow="Real Academia Española" title="¿Qué significa " highlight="Escolanía?" />
+      <dl class="reveal grid gap-5 sm:grid-cols-2">
+        {
+          definitions.map((d) => (
+            <div class="rounded-3xl border-l-4 border-gold-500 bg-white p-6 shadow-sm ring-1 ring-navy-100">
+              <dt class="font-display text-2xl font-bold text-navy-900">
+                {d.term} <span class="font-sans text-sm font-normal text-slate-400 italic">s.</span>
+              </dt>
+              <dd class="mt-2 leading-relaxed text-slate-600">{d.text}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- Equipo directivo -->
+  <section class="bg-sky-50/70">
+    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+      <SectionHeading eyebrow="Quienes nos dirigen" title="Equipo " highlight="directivo" align="center" />
+      <ul class="mt-12 grid gap-5 md:grid-cols-3">
+        {
+          leadership.map((person) => (
+            <li class="reveal rounded-3xl bg-white p-7 text-center shadow-sm ring-1 ring-navy-100">
+              <p class="text-xs font-bold tracking-[0.2em] text-gold-600 uppercase">{person.role}</p>
+              <p class="mt-3 font-display text-xl font-bold text-navy-900">{person.name}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Fines -->
+  <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <SectionHeading eyebrow="Fines de la Escolanía" title="Una educación " highlight="integral">
+      Facilitamos a nuestros educandos una formación que atiende tres aspectos:
+    </SectionHeading>
+    <ul class="mt-10 grid gap-5 md:grid-cols-3">
+      {
+        aims.map((a, i) => (
+          <li class="reveal rounded-3xl bg-white p-7 shadow-sm ring-1 ring-navy-100">
+            <span class="font-display text-5xl font-extrabold text-gold-200">0{i + 1}</span>
+            <h3 class="mt-2 text-xl">{a.title}</h3>
+            <p class="mt-2 text-slate-600">{a.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h3 class="reveal mt-16 text-2xl">Buscamos formar en nuestros escolanos…</h3>
+    <ul class="mt-6 grid gap-x-10 gap-y-4 md:grid-cols-2">
+      {
+        objectives.map((o) => (
+          <li class="reveal flex gap-3">
+            <span class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-gold-500 text-navy-900">
+              <Check size={14} stroke-width={3} aria-hidden="true" />
+            </span>
+            {o}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Símbolos -->
+  <section class="bg-navy-900">
+    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+      <SectionHeading eyebrow="Nuestros símbolos" title="Escudo, estandarte e " highlight="himno" tone="dark" />
+
+      <!-- Escudo -->
+      <div class="mt-14 grid items-center gap-12 lg:grid-cols-[auto_1fr]">
+        <Image
+          src={escudo}
+          alt="Escudo de la Escolanía: cruz con un blasón dividido en cuatro cuarteles"
+          width={320}
+          class="reveal mx-auto w-56 drop-shadow-2xl sm:w-72"
+        />
+        <div class="reveal">
+          <h3 class="text-2xl text-white">El escudo</h3>
+          <p class="mt-3 leading-relaxed text-navy-100">{shieldIntro}</p>
+          <dl class="mt-8 grid gap-4 sm:grid-cols-2">
+            {
+              shieldParts.map((part) => (
+                <div class="rounded-2xl bg-white/5 p-5 ring-1 ring-white/10">
+                  <dt class="text-xs font-bold tracking-[0.2em] text-gold-300 uppercase">{part.position}</dt>
+                  <dd class="mt-2 text-sm leading-relaxed text-navy-50">{part.text}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+
+      <div class="mt-16 grid gap-6 lg:grid-cols-2">
+        <!-- Estandarte -->
+        <article class="reveal rounded-3xl bg-white/5 p-8 ring-1 ring-white/10 sm:p-10">
+          <h3 class="text-2xl text-white">El estandarte</h3>
+          <ul class="mt-6 flex flex-wrap gap-4" aria-label="Colores institucionales">
+            {
+              colors.map((c) => (
+                <li class="flex items-center gap-2 text-sm text-navy-100">
+                  <span class:list={['size-8 rounded-full ring-2 ring-white/20', c.class]} aria-hidden="true" />
+                  {c.name}
+                </li>
+              ))
+            }
+          </ul>
+          <p class="mt-6 leading-relaxed text-navy-100">{banner}</p>
+        </article>
+
+        <!-- Himno -->
+        <article class="reveal rounded-3xl bg-gold-500 p-8 sm:p-10">
+          <h3 class="text-2xl">Himno de la Escolanía</h3>
+          <div class="mt-6 grid gap-6 sm:grid-cols-2">
+            {
+              anthem.map((stanza, i) => (
+                <div class:list={[i === 0 && 'sm:col-span-2']}>
+                  <p class="text-xs font-bold tracking-[0.2em] text-navy-800 uppercase">{stanza.label}</p>
+                  <p class:list={['mt-2 leading-relaxed text-navy-950', i === 0 && 'font-display text-lg font-semibold']}>
+                    {stanza.lines.map((line) => (
+                      <>
+                        {line}
+                        <br />
+                      </>
+                    ))}
+                  </p>
+                </div>
+              ))
+            }
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <CallToAction />
+</PageLayout>

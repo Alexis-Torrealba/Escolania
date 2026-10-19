@@ -1,0 +1,140 @@
+---
+import { Image } from 'astro:assets';
+import User from '@lucide/astro/icons/user';
+import Users from '@lucide/astro/icons/users';
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import Button from '../../components/Button.astro';
+import { leadership, staffGroups } from '../../data/about';
+
+// Igual que las cifras del Home: en desarrollo se ven los huecos marcados como TODO;
+// en producción solo los grupos con personas, o un aviso si aún no hay ninguno.
+const isDev = import.meta.env.DEV;
+const filled = staffGroups.filter((g) => g.members.length > 0);
+const groups = isDev ? staffGroups : filled;
+const initials = (name: string) =>
+  name
+    .replace(/^(Prof\.|Profa\.|Lic\.|Pbro\.|Abg\.)\s*/i, '')
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join('');
+---
+
+<PageLayout
+  title="Personal"
+  description="Docentes, especialistas y personal administrativo de la U.E.P. Escolanía «Niños Cantores de La Guaira»."
+>
+  <PageHero
+    eyebrow="Nosotros"
+    title="Nuestro "
+    highlight="equipo"
+    label="Personal"
+    breadcrumbs={[{ label: 'Nosotros' }]}
+    description="Docentes y personal comprometidos con la formación integral de cada escolano, desde Inicial hasta Media General."
+  />
+
+  <AboutNav />
+
+  <!-- Equipo directivo (confirmado) -->
+  <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+    <SectionHeading eyebrow="Dirección" title="Equipo " highlight="directivo" />
+    <ul class="mt-10 grid gap-5 md:grid-cols-3">
+      {
+        leadership.map((person) => (
+          <li class="reveal flex items-center gap-4 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-navy-100">
+            <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-navy-900 font-display font-bold text-gold-400">
+              {initials(person.name)}
+            </span>
+            <div>
+              <p class="text-xs font-bold tracking-[0.15em] text-gold-600 uppercase">{person.role}</p>
+              <p class="mt-1 font-display font-bold text-navy-900">{person.name}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  {
+    groups.length > 0 ? (
+      <div class="bg-sky-50/70">
+        <div class="mx-auto max-w-7xl space-y-20 px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+          {groups.map((group) => (
+            <section id={group.slug} class="scroll-mt-36" aria-labelledby={`titulo-${group.slug}`}>
+              <div class="reveal flex flex-wrap items-end justify-between gap-2 border-b border-navy-100 pb-4">
+                <h2 id={`titulo-${group.slug}`} class="text-2xl sm:text-3xl">
+                  {group.title}
+                </h2>
+                <p class="text-slate-500">{group.description}</p>
+              </div>
+
+              <ul class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {group.members.length > 0
+                  ? group.members.map((m) => (
+                      <li class="reveal overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-navy-100">
+                        {m.photo ? (
+                          <Image
+                            src={m.photo}
+                            alt={`Foto de ${m.name}`}
+                            widths={[240, 360, 480]}
+                            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                            class="aspect-square w-full object-cover"
+                          />
+                        ) : (
+                          <div class="grid aspect-square place-items-center bg-navy-900 font-display text-5xl font-bold text-gold-400">
+                            {initials(m.name)}
+                          </div>
+                        )}
+                        <div class="p-5">
+                          <p class="font-display font-bold text-navy-900">{m.name}</p>
+                          <p class="mt-1 text-sm font-medium text-gold-600">{m.role}</p>
+                          {m.credentials && (
+                            <ul class="mt-3 space-y-1 text-sm text-slate-500">
+                              {m.credentials.map((c) => (
+                                <li>{c}</li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      </li>
+                    ))
+                  : Array.from({ length: 4 }, () => (
+                      <li class="rounded-3xl border-2 border-dashed border-navy-200 bg-white/60 p-5" aria-hidden="true">
+                        <div class="grid aspect-square place-items-center rounded-2xl bg-navy-50">
+                          <User size={48} class="text-navy-200" />
+                        </div>
+                        <span class="mt-4 inline-block rounded-md bg-gold-400/20 px-2 py-0.5 text-xs font-semibold tracking-wider text-gold-700">
+                          TODO
+                        </span>
+                        <div class="mt-2 h-4 w-3/4 rounded bg-navy-100" />
+                        <div class="mt-2 h-3 w-1/2 rounded bg-navy-50" />
+                      </li>
+                    ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      </div>
+    ) : (
+      <section class="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+        <div class="reveal mx-auto max-w-2xl rounded-3xl bg-sky-50/70 p-10 text-center ring-1 ring-navy-100">
+          <span class="mx-auto grid size-14 place-items-center rounded-2xl bg-navy-900 text-gold-400">
+            <Users size={26} aria-hidden="true" />
+          </span>
+          <h2 class="mt-6 text-2xl">Estamos actualizando esta sección</h2>
+          <p class="mt-3 text-slate-600">
+            Muy pronto conocerás a los docentes, especialistas y personal que acompañan a nuestros escolanos.
+          </p>
+          <div class="mt-8">
+            <Button href="/contacto" variant="secondary">
+              Contáctanos
+            </Button>
+          </div>
+        </div>
+      </section>
+    )
+  }
+</PageLayout>

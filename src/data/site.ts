@@ -29,7 +29,8 @@ export const links = {
 // TODO(stats): reemplazar por cifras reales cuando Alexis las tenga.
 // `value: null` → el componente muestra un placeholder en vez de inventar un número.
 export const stats: { value: string | null; label: string }[] = [
-  { value: null, label: 'Años de trayectoria' },
+  // Fundada en septiembre de 1991 (página Historia); se recalcula en cada build
+  { value: String(new Date().getFullYear() - 1991), label: 'Años de trayectoria' },
   { value: null, label: 'Estudiantes' },
   { value: null, label: 'Docentes' },
   { value: '3', label: 'Niveles educativos' },
