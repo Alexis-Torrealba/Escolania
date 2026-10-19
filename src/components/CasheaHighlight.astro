@@ -1,26 +1,27 @@
 ---
-// Destaca que la Escolanía acepta Cashea (pago en cuotas), con los colores de la marca Cashea.
+// Destaca que la Escolanía acepta Cashea (inicial + 3 cuotas), con los colores de la marca Cashea.
 // - `band`: franja del Home que lleva a /pagos
 // - `feature`: bloque principal de la página de pagos
-// TODO(contenido): confirmar con administración a qué conceptos aplica y en cuántas cuotas,
-// para concretar el texto. Ícono de Cashea: src/assets/pago/Cashea.png (provisto por la institución).
+// TODO(contenido): confirmar a qué conceptos aplica (inscripción, mensualidad o ambos).
+// Ícono de Cashea: src/assets/pago/Cashea.png (provisto por la institución).
 import { Image } from 'astro:assets';
 import casheaIcon from '../assets/pago/Cashea.png';
 import Smartphone from '@lucide/astro/icons/smartphone';
-import CalendarCheck from '@lucide/astro/icons/calendar-check';
 import MessageCircleQuestion from '@lucide/astro/icons/message-circle-question-mark';
 import Button from './Button.astro';
-import { payments, formatFee } from '../data/site';
+import { payments, formatFee, casheaPlan } from '../data/site';
 
 interface Props {
   variant?: 'band' | 'feature';
 }
 
 const { variant = 'band' } = Astro.props;
+const { installments } = payments.cashea;
+// Inicial + cuotas, en el orden en que se pagan
+const parts = ['Inicial', ...Array.from({ length: installments }, (_, i) => `Cuota ${i + 1}`)];
 const steps = [
   { icon: Smartphone, text: 'Usa tu cuenta de Cashea al momento de pagar' },
-  { icon: CalendarCheck, text: 'Divide el monto en cuotas' },
-  { icon: MessageCircleQuestion, text: 'Consulta las condiciones en administración' },
+  { icon: MessageCircleQuestion, text: 'Consulta en administración a qué pagos aplica' },
 ];
 ---
 
@@ -31,11 +32,6 @@ const steps = [
   <div
     class="reveal relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-cashea px-6 py-12 text-cashea-ink sm:px-12 lg:px-16 lg:py-16"
   >
-    <!-- Decoración: «cuotas» como bloques que se van llenando -->
-    <div class="pointer-events-none absolute -right-10 -bottom-10 flex rotate-[-8deg] gap-3 opacity-15" aria-hidden="true">
-      {[1, 0.75, 0.5, 0.25].map((o) => <span class="block h-40 w-16 rounded-2xl bg-cashea-ink" style={{ opacity: o }} />)}
-    </div>
-
     <div class="relative grid items-center gap-10 lg:grid-cols-[1.3fr_1fr]">
       <div>
         <div class="flex items-center gap-4">
@@ -48,15 +44,15 @@ const steps = [
             class="size-16 shrink-0 rounded-2xl shadow-xl shadow-cashea-ink/15 ring-2 ring-cashea-ink sm:size-20 sm:rounded-3xl"
           />
           <p class="rounded-full bg-cashea-ink px-4 py-1.5 text-xs font-bold tracking-[0.2em] text-cashea uppercase">
-            Paga en cuotas
+            {casheaPlan}
           </p>
         </div>
         <h2 id={`cashea-${variant}`} class="mt-6 scroll-mt-32 text-4xl leading-tight text-cashea-ink sm:text-5xl">
           ¡Contamos con <span class="underline decoration-cashea-ink decoration-4 underline-offset-8">Cashea</span>!
         </h2>
         <p class="mt-5 max-w-xl text-lg">
-          Ahora puedes pagar en cuotas los compromisos con la Escolanía. Más facilidades para que tu hijo siga
-          formándose con nosotros.
+          Paga una <strong>inicial</strong> y el resto en <strong>{installments} cuotas</strong>. Más facilidades para
+          que tu hijo siga formándose con nosotros.
         </p>
 
         {
@@ -79,21 +75,39 @@ const steps = [
         }
       </div>
 
-      <ol class="space-y-3">
+      <div class="space-y-3">
+        <!-- El plan: inicial + cuotas -->
+        <div class="rounded-3xl bg-white/70 p-5 ring-1 ring-cashea-ink/10">
+          <p class="text-sm font-bold">Así se divide tu pago</p>
+          <ol class="mt-3 grid grid-cols-4 gap-2">
+            {
+              parts.map((part, i) => (
+                <li
+                  class:list={[
+                    'flex h-20 items-end rounded-2xl p-2.5 font-display text-sm leading-tight font-bold sm:h-24 sm:text-base',
+                    i === 0 ? 'bg-cashea-ink text-cashea' : 'bg-cashea text-cashea-ink ring-2 ring-cashea-ink',
+                  ]}
+                >
+                  {part}
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+
+        <ul class="space-y-3">
         {
-          steps.map(({ icon: Icon, text }, i) => (
+          steps.map(({ icon: Icon, text }) => (
             <li class="flex items-center gap-4 rounded-2xl bg-white/70 p-4 ring-1 ring-cashea-ink/10">
               <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-cashea-ink text-cashea">
                 <Icon size={20} aria-hidden="true" />
               </span>
-              <span class="font-medium">
-                <span class="sr-only">Paso {i + 1}: </span>
-                {text}
-              </span>
+              <span class="font-medium">{text}</span>
             </li>
           ))
         }
-      </ol>
+        </ul>
+      </div>
     </div>
   </div>
 </section>

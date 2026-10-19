@@ -14,7 +14,7 @@ const reportHref = `mailto:${contact.email}?subject=Reporte%20de%20pago`;
 
 <PageLayout
   title="Pagos"
-  description={`Inscripción ${formatFee(payments.fees[0].amount)} y mensualidad ${formatFee(payments.fees[1].amount)}. Paga en cuotas con Cashea y reporta tu pago a la administración de la U.E.P. Escolanía.`}
+  description={`Inscripción ${formatFee(payments.fees[0].amount)} y mensualidad ${formatFee(payments.fees[1].amount)}. Paga con Cashea: inicial + ${payments.cashea.installments} cuotas. Reporta tu pago a la administración de la U.E.P. Escolanía.`}
 >
   <PageHero
     eyebrow="Recursos"

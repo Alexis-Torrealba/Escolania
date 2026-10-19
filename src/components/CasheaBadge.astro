@@ -1,7 +1,8 @@
 ---
-// Distintivo pequeño «Paga en cuotas con Cashea», con el ícono y el color de la marca Cashea.
+// Distintivo pequeño «Inicial + 3 cuotas con Cashea», con el ícono y el color de la marca Cashea.
 import { Image } from 'astro:assets';
 import casheaIcon from '../assets/pago/Cashea.png';
+import { casheaPlan } from '../data/site';
 
 interface Props {
   /** Si se indica, el distintivo es un enlace */
@@ -23,5 +24,5 @@ const Tag = href ? 'a' : 'span';
   ]}
 >
   <Image src={casheaIcon} alt="" width={56} height={56} class="size-7 rounded-full" />
-  Paga en cuotas con Cashea
+  {casheaPlan} con Cashea
 </Tag>

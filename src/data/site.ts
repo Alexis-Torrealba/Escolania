@@ -30,8 +30,9 @@ export const payments = {
     { label: 'Mensualidad', amount: 80, note: 'Se cancela en los primeros cinco días de cada mes' },
   ],
   currency: '$',
-  // Cashea: app venezolana para pagar en cuotas
-  cashea: true,
+  // Cashea: app venezolana para pagar en cuotas. Plan confirmado por la institución:
+  // una inicial + 3 cuotas. El % de la inicial depende de Cashea, así que no calculamos montos.
+  cashea: { installments: 3 },
   // Pasos para reportar un pago (página «Administración» de WordPress)
   reportSteps: [
     'Realiza tu pago por el método de tu preferencia.',
@@ -42,6 +43,9 @@ export const payments = {
 } as const;
 
 export const formatFee = (amount: number) => `${amount} ${payments.currency}`;
+
+/** «Inicial + 3 cuotas»: texto corto del plan de Cashea */
+export const casheaPlan = `Inicial + ${payments.cashea.installments} cuotas`;
 
 export const links = {
   // Sistema externo de inscripciones y representantes
