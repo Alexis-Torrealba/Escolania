@@ -1,0 +1,98 @@
+---
+import CalendarDays from '@lucide/astro/icons/calendar-days';
+import Clock from '@lucide/astro/icons/clock';
+import Download from '@lucide/astro/icons/download';
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Button from '../components/Button.astro';
+import { scheduleGroups, schoolYear } from '../data/resources';
+import { contact } from '../data/site';
+
+// Igual que Personal: en desarrollo se ven los huecos marcados como TODO;
+// en producción solo los grupos con horario, o un aviso si aún no hay ninguno.
+const isDev = import.meta.env.DEV;
+const groups = isDev ? scheduleGroups : scheduleGroups.filter((g) => g.file);
+---
+
+<PageLayout
+  title="Horarios"
+  description="Horarios de clases y de extracátedras de la U.E.P. Escolanía, y horario de atención al público."
+>
+  <PageHero
+    eyebrow="Recursos"
+    title="Horarios "
+    highlight={schoolYear}
+    label="Horarios"
+    breadcrumbs={[{ label: 'Recursos' }]}
+    description="Consulta el horario de clases de tu representado por nivel, y el de nuestras extracátedras."
+  />
+
+  <section class="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8 lg:pb-32">
+    <!-- Atención al público: dato vigente que siempre se muestra -->
+    <div class="reveal flex flex-col gap-5 rounded-3xl bg-navy-900 p-7 sm:flex-row sm:items-center sm:p-8">
+      <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-white/10 text-gold-400">
+        <Clock size={26} aria-hidden="true" />
+      </span>
+      <div class="flex-1">
+        <p class="text-sm text-navy-200">Horario de atención al público</p>
+        <p class="font-display text-xl font-semibold text-white">{contact.hours}</p>
+      </div>
+      <Button href="/contacto" variant="light">Contacto</Button>
+    </div>
+
+    {
+      groups.length > 0 ? (
+        <ul class="mt-10 grid gap-5 sm:grid-cols-2">
+          {groups.map((g) => (
+            <li class="reveal">
+              {g.file ? (
+                <a
+                  href={g.file}
+                  class="group flex h-full items-center gap-5 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-navy-100 transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:shadow-xl hover:shadow-navy-900/10"
+                >
+                  <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-gold-500 text-navy-900">
+                    <CalendarDays size={24} aria-hidden="true" />
+                  </span>
+                  <div class="flex-1">
+                    <h2 class="text-xl">{g.title}</h2>
+                    <p class="mt-1 text-sm text-slate-500">{g.description}</p>
+                  </div>
+                  <Download size={20} class="text-navy-900 transition-transform group-hover:translate-y-0.5" aria-hidden="true" />
+                </a>
+              ) : (
+                <div class="flex h-full items-center gap-5 rounded-3xl border-2 border-dashed border-navy-200 bg-white/60 p-6">
+                  <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-navy-50 text-navy-200">
+                    <CalendarDays size={24} aria-hidden="true" />
+                  </span>
+                  <div class="flex-1">
+                    <h2 class="text-xl">{g.title}</h2>
+                    <p class="mt-1 text-sm text-slate-500">{g.description}</p>
+                  </div>
+                  <span class="rounded-md bg-gold-400/20 px-2 py-0.5 text-xs font-semibold tracking-wider text-gold-700">
+                    TODO
+                  </span>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="reveal mx-auto mt-10 max-w-2xl rounded-3xl bg-sky-50/70 p-10 text-center ring-1 ring-navy-100">
+          <span class="mx-auto grid size-14 place-items-center rounded-2xl bg-navy-900 text-gold-400">
+            <CalendarDays size={26} aria-hidden="true" />
+          </span>
+          <h2 class="mt-6 text-2xl">Pronto publicaremos los horarios</h2>
+          <p class="mt-3 text-slate-600">
+            Estamos preparando los horarios del año escolar. Si necesitas el de tu representado, escríbenos y te lo
+            hacemos llegar.
+          </p>
+          <div class="mt-8">
+            <Button href="/contacto" variant="secondary">
+              Contáctanos
+            </Button>
+          </div>
+        </div>
+      )
+    }
+  </section>
+</PageLayout>
