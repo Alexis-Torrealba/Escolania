@@ -7,10 +7,12 @@ import { site } from '../data/site';
 interface Props {
   size?: number;
   withText?: boolean;
+  /** `dark` = sobre fondo oscuro (footer navy) */
+  tone?: 'light' | 'dark';
   class?: string;
 }
 
-const { size = 56, withText = true, class: className } = Astro.props;
+const { size = 56, withText = true, tone = 'light', class: className } = Astro.props;
 ---
 
 <a href="/" class:list={['group inline-flex items-center gap-3', className]} aria-label={`${site.name}, ir al inicio`}>
@@ -26,8 +28,17 @@ const { size = 56, withText = true, class: className } = Astro.props;
   {
     withText && (
       <span class="leading-tight">
-        <span class="block font-display text-lg font-extrabold text-navy-900">Escolanía</span>
-        <span class="block text-xs font-medium tracking-wide text-slate-500">Niños Cantores de La Guaira</span>
+        <span class:list={['block font-display text-lg font-extrabold', tone === 'dark' ? 'text-white' : 'text-navy-900']}>
+          Escolanía
+        </span>
+        <span
+          class:list={[
+            'block text-xs font-medium tracking-wide',
+            tone === 'dark' ? 'text-navy-200' : 'text-slate-500',
+          ]}
+        >
+          Niños Cantores de La Guaira
+        </span>
       </span>
     )
   }

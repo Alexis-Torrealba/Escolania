@@ -1,7 +1,7 @@
 ---
 // TEMPORAL: guía de estilos para validar la base del diseño.
 // Se reemplaza por el Home real en el siguiente paso.
-import BaseLayout from '../layouts/BaseLayout.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 import Logo from '../components/Logo.astro';
 import Button from '../components/Button.astro';
 import { site, stats } from '../data/site';
@@ -17,8 +17,8 @@ const palettes = [
 const swatch = (name: string, shade: number) => `background: var(--color-${name}-${shade})`;
 ---
 
-<BaseLayout title="Guía de estilos">
-  <main class="mx-auto max-w-6xl space-y-24 px-4 py-16 sm:px-6">
+<PageLayout title="Guía de estilos">
+  <div class="mx-auto max-w-6xl space-y-24 px-4 py-16 sm:px-6">
     <header class="flex flex-col items-start gap-6 animate-fade-up">
       <Logo size={72} />
       <p class="font-script text-3xl text-gold-600 animate-fade-in animate-delay-300">Niños Cantores de La Guaira</p>
@@ -99,7 +99,6 @@ const swatch = (name: string, shade: number) => `background: var(--color-${name}
         <span class="inline-block size-16 rounded-2xl bg-gold-500 animate-float"></span>
         <span class="font-script text-2xl text-navy-800">animate-float</span>
       </div>
-      <div class="h-[40vh]"></div>
     </section>
-  </main>
-</BaseLayout>
+  </div>
+</PageLayout>

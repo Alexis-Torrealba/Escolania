@@ -1,0 +1,97 @@
+---
+import MapPin from '@lucide/astro/icons/map-pin';
+import Phone from '@lucide/astro/icons/phone';
+import Mail from '@lucide/astro/icons/mail';
+import Clock from '@lucide/astro/icons/clock';
+import ArrowUpRight from '@lucide/astro/icons/arrow-up-right';
+import Logo from './Logo.astro';
+import SocialLinks from './SocialLinks.astro';
+import { site, contact } from '../data/site';
+import { mainNav, isGroup } from '../data/navigation';
+
+// Columnas de enlaces = los grupos del menú principal (una sola fuente de verdad)
+const columns = mainNav.filter(isGroup).filter((g) => g.label !== 'Niveles');
+const year = new Date().getFullYear();
+---
+
+<footer class="relative overflow-hidden border-t-4 border-gold-500 bg-navy-950 text-navy-200">
+  <!-- Halo decorativo -->
+  <div
+    class="pointer-events-none absolute -top-40 -right-40 size-[28rem] rounded-full bg-navy-700/30 blur-3xl"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="relative mx-auto max-w-7xl px-4 pt-16 pb-8 sm:px-6 lg:px-8">
+    <div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1.6fr]">
+      <!-- Marca -->
+      <div class="space-y-5 sm:col-span-2 lg:col-span-1">
+        <Logo tone="dark" size={60} />
+        <p class="font-script text-2xl leading-snug text-gold-300">“{site.motto}”</p>
+        <SocialLinks
+          size={16}
+          itemClass="size-10 bg-white/5 ring-1 ring-white/10 hover:bg-gold-500 hover:text-navy-950 hover:ring-gold-500"
+          class="gap-2"
+        />
+      </div>
+
+      <!-- Enlaces -->
+      {
+        columns.map((group) => (
+          <div>
+            <h2 class="mb-4 text-sm font-semibold tracking-widest text-white uppercase">{group.label}</h2>
+            <ul class="space-y-2.5 text-sm">
+              {group.children.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    {...(link.external && { target: '_blank', rel: 'noopener noreferrer' })}
+                    class="group transition-colors hover:text-gold-300"
+                  >
+                    {link.label}
+                    {link.external && (
+                      <ArrowUpRight
+                        size={13}
+                        class="ml-0.5 inline align-[-1px] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      />
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+
+      <!-- Contacto -->
+      <div>
+        <h2 class="mb-4 text-sm font-semibold tracking-widest text-white uppercase">Contacto</h2>
+        <address class="space-y-3.5 text-sm not-italic">
+          <p class="flex gap-3">
+            <MapPin size={18} class="mt-0.5 shrink-0 text-gold-400" />
+            {contact.address}
+          </p>
+          <a href={contact.phoneHref} class="flex gap-3 transition-colors hover:text-gold-300">
+            <Phone size={18} class="shrink-0 text-gold-400" />
+            {contact.phone}
+          </a>
+          <a href={`mailto:${contact.email}`} class="flex gap-3 break-all transition-colors hover:text-gold-300">
+            <Mail size={18} class="shrink-0 text-gold-400" />
+            {contact.email}
+          </a>
+          <p class="flex gap-3">
+            <Clock size={18} class="mt-0.5 shrink-0 text-gold-400" />
+            {contact.hours}
+          </p>
+        </address>
+      </div>
+    </div>
+
+    <div
+      class="mt-14 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-navy-300 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>© {year} {site.fullName}. Todos los derechos reservados.</p>
+      <p>Desarrollado por <span class="font-semibold text-navy-100">Alexis Torrealba</span></p>
+    </div>
+  </div>
+</footer>

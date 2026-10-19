@@ -1,0 +1,39 @@
+---
+// Logos de marcas desde Simple Icons (Lucide ya no incluye logos de marcas).
+import { siFacebook, siInstagram, siYoutube } from 'simple-icons';
+import { links } from '../data/site';
+
+interface Props {
+  size?: number;
+  class?: string;
+  itemClass?: string;
+}
+
+const { size = 16, class: className, itemClass } = Astro.props;
+
+const socials = [
+  { icon: siFacebook, href: links.facebook },
+  { icon: siInstagram, href: links.instagram },
+  { icon: siYoutube, href: links.youtube },
+];
+---
+
+<ul class:list={['flex items-center gap-1', className]}>
+  {
+    socials.map(({ icon, href }) => (
+      <li>
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Escolanía en ${icon.title}`}
+          class:list={['grid place-items-center rounded-full transition-colors duration-300', itemClass]}
+        >
+          <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" aria-hidden="true">
+            <path d={icon.path} />
+          </svg>
+        </a>
+      </li>
+    ))
+  }
+</ul>
