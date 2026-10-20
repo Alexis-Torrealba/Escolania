@@ -27,8 +27,8 @@ const trail = [{ label: 'Inicio', href: '/' }, ...breadcrumbs, { label: current 
 
 <section class="relative overflow-hidden bg-linear-to-b from-sky-50 via-sky-50/60 to-white">
   <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-    <div class="absolute -top-32 -left-32 size-96 rounded-full bg-sky-200/50 blur-3xl"></div>
-    <div class="absolute top-1/4 -right-24 size-72 rounded-full bg-gold-200/40 blur-3xl"></div>
+    <div class="glow-sky absolute -top-56 -left-56 size-[38rem]"></div>
+    <div class="glow-gold absolute top-0 -right-48 size-[32rem]"></div>
   </div>
 
   <div
@@ -66,7 +66,7 @@ const trail = [{ label: 'Inicio', href: '/' }, ...breadcrumbs, { label: current 
       }
       <h1
         class:list={[
-          'animate-fade-up text-4xl leading-[1.08] animate-delay-100 sm:text-5xl lg:text-6xl',
+          'animate-fade-up text-4xl leading-[1.08] animate-delay-60 sm:text-5xl lg:text-6xl',
           eyebrow ? 'mt-3' : 'mt-8',
         ]}
       >
@@ -75,14 +75,14 @@ const trail = [{ label: 'Inicio', href: '/' }, ...breadcrumbs, { label: current 
       </h1>
       {
         description && (
-          <p class="mt-6 max-w-2xl animate-fade-up text-lg leading-relaxed animate-delay-200 sm:text-xl">
+          <p class="mt-6 max-w-2xl animate-fade-up text-lg leading-relaxed animate-delay-120 sm:text-xl">
             {description}
           </p>
         )
       }
       {
         Astro.slots.has('default') && (
-          <div class="mt-8 animate-fade-up animate-delay-300">
+          <div class="mt-8 animate-fade-up animate-delay-180">
             <slot />
           </div>
         )
@@ -91,7 +91,7 @@ const trail = [{ label: 'Inicio', href: '/' }, ...breadcrumbs, { label: current 
 
     {
       hasMedia && (
-        <div class="relative animate-scale-in animate-delay-200">
+        <div class="relative animate-scale-in animate-delay-120">
           <div class="absolute -inset-3 -z-0 rotate-2 rounded-[2.5rem] bg-gold-200/50" aria-hidden="true" />
           <div class="relative overflow-hidden rounded-[2rem] shadow-2xl shadow-navy-900/15">
             {image ? (
@@ -101,7 +101,7 @@ const trail = [{ label: 'Inicio', href: '/' }, ...breadcrumbs, { label: current 
                 widths={[480, 720, 960]}
                 sizes="(min-width: 1024px) 45vw, 100vw"
                 loading="eager"
-                class="aspect-4/3 w-full object-cover"
+                class="parallax aspect-4/3 w-full scale-110 object-cover"
               />
             ) : (
               <slot name="media" />

@@ -60,7 +60,7 @@ const topics = [
   <section class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8 lg:pb-28">
     <div class="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
       <!-- Canales -->
-      <div class="reveal rounded-3xl bg-navy-900 p-8 sm:p-10">
+      <div class="reveal min-w-0 rounded-3xl bg-navy-900 p-8 sm:p-10">
         <h2 class="text-2xl text-white">Comunícate con nosotros</h2>
         <ul class="mt-8 space-y-6">
           {
@@ -74,7 +74,7 @@ const topics = [
                   {href ? (
                     <a
                       href={href}
-                      class="font-display text-lg font-semibold break-words text-white transition-colors hover:text-gold-300"
+                      class="font-display text-lg font-semibold [overflow-wrap:anywhere] text-white transition-colors hover:text-gold-300"
                     >
                       {value}
                     </a>
@@ -93,7 +93,7 @@ const topics = [
       </div>
 
       <!-- Dirección -->
-      <div class="reveal flex flex-col overflow-hidden rounded-3xl bg-sky-50/70 ring-1 ring-navy-100">
+      <div class="reveal flex min-w-0 flex-col overflow-hidden rounded-3xl bg-sky-50/70 ring-1 ring-navy-100">
         <div class="map-art relative grid flex-1 place-items-center p-10" aria-hidden="true">
           <span class="relative grid size-20 place-items-center rounded-full bg-gold-500 text-navy-900 shadow-xl shadow-gold-500/30">
             <MapPin size={34} />

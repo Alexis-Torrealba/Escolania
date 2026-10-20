@@ -17,7 +17,10 @@ const show = isDev || visible.length >= 2;
           <div class="reveal flex flex-col-reverse items-center gap-1 px-4 py-4 text-center">
             <dt class="text-sm text-navy-200">{label}</dt>
             <dd class="font-display text-4xl font-extrabold text-gold-400 sm:text-5xl">
-              {value ?? (
+              {value !== null && /^\d+$/.test(value) ? (
+                /* Cuenta desde 0 al aparecer (src/scripts/motion.ts); sin JS se ve el número final */
+                <span data-count-to={value}>{value}</span>
+              ) : value ?? (
                 <span class="rounded-md bg-gold-400/15 px-2 py-0.5 align-middle font-sans text-sm font-semibold tracking-wider text-gold-300">
                   TODO
                 </span>

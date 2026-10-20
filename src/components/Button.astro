@@ -28,6 +28,8 @@ const variants = {
     'transition-all duration-300 ease-out-expo hover:-translate-y-0.5',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500',
     variants[variant],
+    // Brillo al pasar el mouse en los botones de acción principal
+    (variant === 'primary' || variant === 'cashea') && 'btn-shine',
     className,
   ]}
   {...external && { target: '_blank', rel: 'noopener noreferrer' }}

@@ -14,10 +14,14 @@ const columns = mainNav.filter(isGroup).filter((g) => g.label !== 'Niveles');
 const year = new Date().getFullYear();
 ---
 
-<footer class="relative overflow-hidden border-t-4 border-gold-500 bg-navy-950 text-navy-200">
+<footer
+  class="relative overflow-hidden border-t-4 border-gold-500 bg-navy-950 text-navy-200"
+  transition:name="site-footer"
+  transition:animate="none"
+>
   <!-- Halo decorativo -->
   <div
-    class="pointer-events-none absolute -top-40 -right-40 size-[28rem] rounded-full bg-navy-700/30 blur-3xl"
+    class="pointer-events-none absolute -top-64 -right-64 size-[44rem] bg-[radial-gradient(circle_closest-side,color-mix(in_oklab,var(--color-navy-700)_40%,transparent),transparent)]"
     aria-hidden="true"
   >
   </div>

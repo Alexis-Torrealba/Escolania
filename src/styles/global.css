@@ -59,16 +59,18 @@
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Animaciones de entrada → animate-fade-up, animate-fade-in, animate-scale-in */
-  --animate-fade-up: fade-up 0.8s var(--ease-out-expo) both;
-  --animate-fade-in: fade-in 0.8s ease-out both;
+  /* Animaciones de entrada → animate-fade-up, animate-fade-in, animate-scale-in.
+     Cortas a propósito: el contenido debe verse casi al instante (el texto del hero es el
+     elemento LCP; con 0.8 s + retrasos tardaba ~2 s en aparecer). */
+  --animate-fade-up: fade-up 0.55s var(--ease-out-expo) both;
+  --animate-fade-in: fade-in 0.45s ease-out both;
   --animate-scale-in: scale-in 0.6s var(--ease-out-expo) both;
   --animate-float: float 6s ease-in-out infinite;
 
   @keyframes fade-up {
     from {
       opacity: 0;
-      transform: translateY(1.5rem);
+      transform: translateY(0.875rem);
     }
   }
   @keyframes fade-in {
@@ -87,6 +89,14 @@
       transform: translateY(-0.5rem);
     }
   }
+  @keyframes parallax {
+    from {
+      transform: translateY(2.5rem);
+    }
+    to {
+      transform: translateY(-2.5rem);
+    }
+  }
 }
 
 /* ------------------------------------------------------------------
@@ -99,17 +109,117 @@
   animation-delay: calc(--value(integer) * 1ms);
 }
 
-/* reveal: el elemento aparece al entrar en pantalla con el scroll.
-   Solo CSS (scroll-driven animations), sin JavaScript. Si el navegador
-   no lo soporta o el usuario pidió menos movimiento, se ve normal. */
-@utility reveal {
+/* Halos de color decorativos. Sustituyen a los círculos con `blur-3xl`: un filtro de
+   desenfoque grande se recalcula al pintar y hace pesado el scroll en móviles;
+   un degradado radial se ve igual y no cuesta nada. */
+@utility glow-sky {
+  background: radial-gradient(circle closest-side, var(--color-sky-200), transparent);
+  opacity: 0.7;
+}
+@utility glow-gold {
+  background: radial-gradient(circle closest-side, var(--color-gold-200), transparent);
+  opacity: 0.6;
+}
+
+/* parallax: la imagen se desplaza un poco más lento que la página (solo CSS). */
+@utility parallax {
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {
-      animation: fade-up linear both;
+      animation: parallax linear both;
       animation-timeline: view();
-      animation-range: entry 0% cover 25%;
+      animation-range: cover;
     }
   }
+}
+
+/* ------------------------------------------------------------------
+   Aparición al hacer scroll (.reveal)
+   La activa src/scripts/motion.ts con IntersectionObserver: el elemento aparece
+   UNA vez, en cuanto asoma, y los que entran juntos se escalonan.
+   El estado oculto solo existe si el script marcó <html class="reveal-ready">:
+   sin JavaScript o con «reducir movimiento», todo se ve normal desde el inicio.
+   data-reveal="scale" | "left" | "right" cambia el movimiento (por defecto, subir).
+   ------------------------------------------------------------------ */
+html.reveal-ready .reveal:not(.reveal-done) {
+  transition:
+    opacity 0.6s var(--ease-out-expo),
+    transform 0.8s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+html.reveal-ready .reveal:not(.is-visible) {
+  opacity: 0;
+  transform: translate3d(0, 1.75rem, 0);
+}
+html.reveal-ready .reveal[data-reveal='scale']:not(.is-visible) {
+  transform: scale(0.94);
+}
+html.reveal-ready .reveal[data-reveal='left']:not(.is-visible) {
+  transform: translate3d(-2.5rem, 0, 0);
+}
+html.reveal-ready .reveal[data-reveal='right']:not(.is-visible) {
+  transform: translate3d(2.5rem, 0, 0);
+}
+/* Línea de la etiqueta de los títulos de sección: se dibuja después del texto */
+html.reveal-ready .eyebrow-line {
+  transform-origin: left;
+  transition: transform 0.9s var(--ease-out-expo) 0.25s;
+}
+html.reveal-ready .reveal:not(.is-visible) .eyebrow-line {
+  transform: scaleX(0);
+}
+
+/* ------------------------------------------------------------------
+   Transición entre páginas (View Transitions de ClientRouter)
+   Header y footer no se animan; solo el contenido (<main>) sale y entra.
+   ------------------------------------------------------------------ */
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+}
+
+/* Barra de progreso de lectura (solo CSS, avanza con el scroll de la página) */
+@keyframes scroll-progress {
+  from {
+    transform: scaleX(0);
+  }
+}
+.scroll-progress {
+  display: none;
+}
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    display: block;
+    transform-origin: left;
+    animation: scroll-progress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+
+/* Brillo que cruza el botón al pasar el mouse (botón principal y Cashea) */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-shine::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.35) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.7s var(--ease-out-expo);
+}
+.btn-shine:hover::before {
+  transform: translateX(120%);
 }
 
 /* ------------------------------------------------------------------
@@ -122,6 +232,9 @@
 
   body {
     @apply bg-white font-sans text-slate-700 antialiased;
+    /* Las entradas laterales (data-reveal left/right) no deben crear scroll horizontal.
+       `clip` (no `hidden`) para no romper los elementos sticky. */
+    overflow-x: clip;
   }
 
   h1,

@@ -1,10 +1,15 @@
 ---
-// TEMPORAL: guía de estilos para validar la base del diseño.
-// Página interna de desarrollo (noindex).
+// Guía de estilos interna para validar el diseño. Solo existe en desarrollo:
+// es una ruta dinámica que en producción no genera ninguna página (no se publica).
+import type { GetStaticPaths } from 'astro';
+
 import PageLayout from '../layouts/PageLayout.astro';
 import Logo from '../components/Logo.astro';
 import Button from '../components/Button.astro';
 import { site, stats } from '../data/site';
+
+export const getStaticPaths = (() =>
+  import.meta.env.DEV ? [{ params: { styleguide: 'styleguide' } }] : []) satisfies GetStaticPaths;
 
 const palettes = [
   { name: 'navy', brand: 900, shades: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] },

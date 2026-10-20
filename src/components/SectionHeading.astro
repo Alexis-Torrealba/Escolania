@@ -13,7 +13,16 @@ const { eyebrow, title, highlight, align = 'left', tone = 'light', class: classN
 ---
 
 <div class:list={['reveal max-w-2xl', align === 'center' && 'mx-auto text-center', className]}>
-  <p class="text-xs font-bold tracking-[0.25em] text-gold-600 uppercase">{eyebrow}</p>
+  <p
+    class:list={[
+      'flex items-center gap-3 text-xs font-bold tracking-[0.25em] text-gold-600 uppercase',
+      align === 'center' && 'justify-center',
+    ]}
+  >
+    <!-- Línea que se dibuja al aparecer el título (ver .eyebrow-line en global.css) -->
+    <span class="eyebrow-line h-0.5 w-8 rounded-full bg-gold-500" aria-hidden="true"></span>
+    {eyebrow}
+  </p>
   <h2 class:list={['mt-3 text-3xl leading-tight sm:text-4xl', tone === 'dark' && 'text-white']}>
     {title}
     {highlight && <span class="text-gold-500">{highlight}</span>}

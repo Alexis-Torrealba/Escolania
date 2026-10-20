@@ -27,7 +27,7 @@ import { patrons } from '../../data/about';
     {
       patrons.map((p, i) => (
         <article class="grid items-center gap-12 md:grid-cols-[auto_1fr] md:gap-16">
-          <div class:list={['reveal relative mx-auto', i % 2 === 1 && 'md:order-2']}>
+          <div class:list={['reveal relative mx-auto', i % 2 === 1 && 'md:order-2']} data-reveal="scale">
             <div class="absolute -inset-4 rounded-t-full rounded-b-3xl bg-gold-200/60" aria-hidden="true" />
             {/* Las estampas originales miden ~200 px: se muestran a ese tamaño para no pixelarlas */}
             <Image

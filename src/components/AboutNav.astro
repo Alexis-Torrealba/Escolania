@@ -7,7 +7,7 @@ const items = group && isGroup(group) ? group.children : [];
 const current = Astro.url.pathname.replace(/\/$/, '');
 ---
 
-<nav aria-label="Secciones de Nosotros" class="sticky top-20 z-40 border-y border-navy-100 bg-white/90 backdrop-blur-md">
+<nav aria-label="Secciones de Nosotros" class="sticky top-20 z-40 border-y border-navy-100 bg-white/95">
   <ul class="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 sm:px-6 lg:px-8 [scrollbar-width:none]">
     {
       items.map((item) => {
