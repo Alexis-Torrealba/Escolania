@@ -1,0 +1,30 @@
+---
+// Espacio reservado para una foto que aún no llega: panel navy con una cámara y una trama suave.
+import Camera from '@lucide/astro/icons/camera';
+
+interface Props {
+  label: string;
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+---
+
+<div
+  class:list={['photo-placeholder relative grid place-items-center overflow-hidden bg-navy-900', className]}
+  role="img"
+  aria-label={label}
+>
+  <Camera class="relative size-1/4 max-h-24 text-gold-400/80" stroke-width={1.25} aria-hidden="true" />
+</div>
+
+<style>
+  .photo-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.08;
+    background: repeating-linear-gradient(45deg, white 0 1px, transparent 1px 1.25rem);
+    mask-image: radial-gradient(circle at center, black 20%, transparent 75%);
+  }
+</style>

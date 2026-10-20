@@ -2,12 +2,6 @@
 // Fuente: páginas «¿Qué es? Bienestar», «Atención Médica» e «Infraestructura» de WordPress
 // (backup 2026-10-18) y el volante de servicios de Bienestar (2020).
 import type { ImageMetadata } from 'astro';
-import fachada from '../assets/infraestructura/fachada.jpg';
-import patioCentral from '../assets/infraestructura/patio-central.jpg';
-import pasilloAulas from '../assets/infraestructura/pasillo-aulas.jpg';
-import patioTechado from '../assets/infraestructura/patio-techado.jpg';
-import patioRecreativo from '../assets/infraestructura/patio-recreativo.jpg';
-import banos from '../assets/infraestructura/banos.jpg';
 
 /* ------------------------------------------------------------------
    Bienestar estudiantil
@@ -66,44 +60,32 @@ export const wellbeingServices: { icon: WellbeingIcon; title: string; text: stri
 
 /* ------------------------------------------------------------------
    Infraestructura
-   TODO(contenido): fotos de abril-mayo 2022, tomadas durante las mejoras de esa época.
-   Hace falta una sesión de fotos actual (aulas, capilla, biblioteca, áreas deportivas).
+   TODO(contenido): sin fotos por ahora; la institución enviará las definitivas.
+   Al llegar, añadir `image` y `alt` a cada espacio (la página muestra un marco mientras tanto).
    ------------------------------------------------------------------ */
-export const facilities: { title: string; text: string; image: ImageMetadata; alt: string }[] = [
+export const facilities: { title: string; text: string; image?: ImageMetadata; alt?: string }[] = [
   {
     title: 'Nuestra sede',
     text: 'En la avenida principal de Guaracarumbo, junto a la Parroquia Nuestra Señora de Coromoto.',
-    image: fachada,
-    alt: 'Fachada de la Escolanía en la avenida principal de Guaracarumbo',
   },
   {
     title: 'Patio central',
     text: 'El corazón de la Escolanía: aquí se reúnen los escolanos en actos, recreos y celebraciones.',
-    image: patioCentral,
-    alt: 'Patio central de la Escolanía con área techada y una cruz en la pared',
   },
   {
     title: 'Aulas',
     text: 'Espacios para cada grado y año, de Preescolar a 5.º año de Media General.',
-    image: pasilloAulas,
-    alt: 'Pasillo techado con las puertas azules de las aulas',
   },
   {
     title: 'Áreas techadas',
     text: 'Pasillos y zonas cubiertas que protegen del sol y de la lluvia en los recorridos diarios.',
-    image: patioTechado,
-    alt: 'Área techada con bancos junto a las aulas',
   },
   {
     title: 'Patio recreativo',
     text: 'Un espacio abierto para el deporte, el juego y la educación física.',
-    image: patioRecreativo,
-    alt: 'Patio abierto con paredes pintadas de verde y blanco',
   },
   {
     title: 'Baños renovados',
     text: 'Sanitarios remodelados para el cuidado y la higiene de nuestros estudiantes.',
-    image: banos,
-    alt: 'Baños renovados con lavamanos y paredes de cerámica blanca',
   },
 ];
