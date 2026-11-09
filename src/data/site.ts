@@ -62,7 +62,7 @@ export const links = {
 export const stats: { value: string | null; label: string }[] = [
   // Fundada en septiembre de 1991 (página Historia); se recalcula en cada build
   { value: String(new Date().getFullYear() - 1991), label: 'Años de trayectoria' },
-  { value: null, label: 'Estudiantes' },
-  { value: null, label: 'Docentes' },
+  { value: '+380', label: 'Estudiantes' },
+  { value: '28', label: 'Docentes' },
   { value: '3', label: 'Niveles educativos' },
 ];
