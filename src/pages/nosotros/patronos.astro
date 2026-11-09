@@ -26,7 +26,13 @@ import { patrons } from '../../data/about';
   <div class="mx-auto max-w-6xl space-y-24 px-4 py-20 sm:px-6 lg:space-y-32 lg:px-8 lg:py-28">
     {
       patrons.map((p, i) => (
-        <article class="grid items-center gap-12 md:grid-cols-[auto_1fr] md:gap-16">
+        /* La columna `auto` es la de la imagen: a la izquierda en los pares, a la derecha en los impares */
+        <article
+          class:list={[
+            'grid items-center gap-12 md:gap-16',
+            i % 2 === 1 ? 'md:grid-cols-[1fr_auto]' : 'md:grid-cols-[auto_1fr]',
+          ]}
+        >
           <div class:list={['reveal relative mx-auto', i % 2 === 1 && 'md:order-2']} data-reveal="scale">
             <div class="absolute -inset-4 rounded-t-full rounded-b-3xl bg-gold-200/60" aria-hidden="true" />
             {/* Las estampas originales miden ~200 px: se muestran a ese tamaño para no pixelarlas */}

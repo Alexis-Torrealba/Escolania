@@ -1,4 +1,8 @@
 ---
+import ArrowUpRight from '@lucide/astro/icons/arrow-up-right';
+import Play from '@lucide/astro/icons/play';
+import Volume2 from '@lucide/astro/icons/volume-2';
+import VolumeX from '@lucide/astro/icons/volume-x';
 import SectionHeading from '../SectionHeading.astro';
 import Button from '../Button.astro';
 import ActivityMedia from '../ActivityMedia.astro';
@@ -21,31 +25,198 @@ import { activities } from '../../data/activities';
     <ul class="grid grid-cols-2 gap-4 sm:gap-5">
       {
         activities.map((a, i) => (
-          <li class:list={['reveal', i % 2 === 1 && 'sm:translate-y-10']}>
-            <a
-              href={`/actividades/${a.slug}`}
-              class="group relative block overflow-hidden rounded-3xl shadow-lg shadow-navy-900/10"
-            >
-              <ActivityMedia
-                activity={a}
-                widths={[320, 480, 640]}
-                sizes="(min-width: 1024px) 28vw, 50vw"
-                class="aspect-3/4 w-full transition-transform duration-700 ease-out-expo group-hover:scale-110"
-              />
-              <div class="absolute inset-0 bg-linear-to-t from-navy-950/90 via-navy-950/20 to-transparent" />
-              <div class="absolute inset-x-0 bottom-0 p-4 sm:p-6">
-                {a.minAge !== undefined && (
-                  <span class="inline-block rounded-full bg-gold-500 px-2.5 py-0.5 text-[0.7rem] font-bold text-navy-900">
-                    Desde {a.minAge} años
+          <li class:list={['reveal relative', i % 2 === 1 && 'sm:translate-y-10']}>
+            {a.video ? (
+              /* Tarjeta con video: tocar la imagen reproduce/pausa el video; solo el nombre lleva a la página */
+              <div class="group relative overflow-hidden rounded-3xl shadow-lg shadow-navy-900/10">
+                {/* Debajo del video: si no carga (o no hay JS), se ve el panel del ícono */}
+                <ActivityMedia
+                  activity={a}
+                  widths={[320, 480, 640]}
+                  sizes="(min-width: 1024px) 28vw, 50vw"
+                  class="aspect-3/4 w-full"
+                />
+                <video
+                  class="activity-video absolute inset-0 size-full object-cover"
+                  src={a.video}
+                  data-loop-start={a.videoLoop?.start ?? 0}
+                  data-loop-end={a.videoLoop?.end}
+                  muted
+                  playsinline
+                  preload="none"
+                  aria-label={`Video de la actividad de ${a.name.toLowerCase()}`}
+                />
+                <div class="pointer-events-none absolute inset-0 bg-linear-to-t from-navy-950/90 via-navy-950/20 to-transparent" />
+
+                {/* Toda la imagen es el botón de reproducir/pausar; el play del centro es solo visual */}
+                <button
+                  type="button"
+                  class="activity-toggle absolute inset-0 cursor-pointer rounded-3xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gold-400 focus-visible:ring-inset"
+                  aria-label={`Reproducir el video de ${a.name.toLowerCase()} con sonido`}
+                >
+                  <span class="activity-play absolute top-[60%] left-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2">
+                    <span class="relative grid size-16 place-items-center rounded-full bg-gold-500 text-navy-900 shadow-xl shadow-navy-950/40 ring-4 ring-white/40 transition-transform duration-300 group-hover:scale-110 sm:size-20">
+                      <span class="absolute inset-0 animate-ping rounded-full bg-gold-400/40 motion-reduce:hidden" aria-hidden="true" />
+                      <Play size={28} class="relative ml-1 fill-current" aria-hidden="true" />
+                    </span>
+                    <span class="rounded-full bg-navy-950/70 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm sm:text-sm">
+                      Ver video
+                    </span>
                   </span>
-                )}
-                <h3 class="mt-2 text-xl leading-tight text-white sm:text-2xl">{a.name}</h3>
-                <p class="mt-1 hidden text-sm text-navy-100 sm:block">{a.tagline}</p>
+                </button>
+
+                <div class="pointer-events-none absolute inset-x-0 bottom-0 p-4 sm:p-6">
+                  {a.minAge !== undefined && (
+                    <span class="inline-block rounded-full bg-gold-500 px-2.5 py-0.5 text-[0.7rem] font-bold text-navy-900">
+                      Desde {a.minAge} años
+                    </span>
+                  )}
+                  <h3 class="mt-2 text-xl leading-tight text-white sm:text-2xl">
+                    <a
+                      href={`/actividades/${a.slug}`}
+                      class="pointer-events-auto inline-flex items-center gap-1.5 underline-offset-4 transition-colors hover:text-gold-300 hover:underline focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400"
+                    >
+                      {a.name}
+                      <ArrowUpRight size={20} class="shrink-0" aria-hidden="true" />
+                    </a>
+                  </h3>
+                  <p class="mt-1 hidden text-sm text-navy-100 sm:block">{a.tagline}</p>
+                </div>
+
+                <button
+                  type="button"
+                  class="activity-sound absolute top-3 right-3 grid size-10 place-items-center rounded-full bg-navy-950/60 text-white backdrop-blur-sm transition-colors hover:bg-gold-500 hover:text-navy-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400 sm:top-4 sm:right-4"
+                  aria-pressed="false"
+                  aria-label="Activar sonido del video"
+                >
+                  <VolumeX size={18} class="sound-off" aria-hidden="true" />
+                  <Volume2 size={18} class="sound-on hidden" aria-hidden="true" />
+                </button>
               </div>
-            </a>
+            ) : (
+              <a
+                href={`/actividades/${a.slug}`}
+                class="group relative block overflow-hidden rounded-3xl shadow-lg shadow-navy-900/10"
+              >
+                <ActivityMedia
+                  activity={a}
+                  widths={[320, 480, 640]}
+                  sizes="(min-width: 1024px) 28vw, 50vw"
+                  class="aspect-3/4 w-full transition-transform duration-700 ease-out-expo group-hover:scale-110"
+                />
+                <div class="absolute inset-0 bg-linear-to-t from-navy-950/90 via-navy-950/20 to-transparent" />
+                <div class="absolute inset-x-0 bottom-0 p-4 sm:p-6">
+                  {a.minAge !== undefined && (
+                    <span class="inline-block rounded-full bg-gold-500 px-2.5 py-0.5 text-[0.7rem] font-bold text-navy-900">
+                      Desde {a.minAge} años
+                    </span>
+                  )}
+                  <h3 class="mt-2 text-xl leading-tight text-white sm:text-2xl">{a.name}</h3>
+                  <p class="mt-1 hidden text-sm text-navy-100 sm:block">{a.tagline}</p>
+                </div>
+              </a>
+            )}
           </li>
         ))
       }
     </ul>
   </div>
 </section>
+
+<script>
+  // Videos de las tarjetas: en silencio repiten solo su tramo limpio (data-loop-start/end), y únicamente
+  // mientras están en pantalla (no se descargan hasta que asoman). Con «reducir movimiento» no arrancan
+  // solos: muestran un cuadro fijo del tramo.
+  // Tocar la imagen (o el botón de sonido) reproduce el video entero con audio, sin el destello inicial;
+  // tocarla de nuevo lo pausa. Al terminar, o al silenciarlo, vuelve a la repetición en silencio.
+  let observer: IntersectionObserver | undefined;
+
+  function setupActivityVideos() {
+    observer?.disconnect();
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Videos con sonido que se pausaron solo por salir de la pantalla (se reanudan al volver)
+    const pausedByScroll = new WeakSet<HTMLVideoElement>();
+
+    observer = new IntersectionObserver(
+      (entries) => {
+        for (const { target, isIntersecting } of entries) {
+          const video = target as HTMLVideoElement;
+          if (!isIntersecting) {
+            if (!video.paused && !video.muted) pausedByScroll.add(video);
+            video.pause();
+          } else if (video.muted ? !reduceMotion : pausedByScroll.has(video)) {
+            pausedByScroll.delete(video);
+            video.play().catch(() => {});
+          }
+        }
+      },
+      { threshold: 0.25 },
+    );
+
+    document.querySelectorAll<HTMLVideoElement>('video.activity-video').forEach((video) => {
+      const start = Number(video.dataset.loopStart) || 0;
+      const end = Number(video.dataset.loopEnd) || Infinity;
+      const card = video.parentElement;
+      const toggle = card?.querySelector<HTMLButtonElement>('.activity-toggle');
+      const play = card?.querySelector<HTMLElement>('.activity-play');
+      const sound = card?.querySelector<HTMLButtonElement>('.activity-sound');
+
+      // El fragmento #t= hace que el primer cuadro (y el de reducir movimiento) ya sea del tramo limpio
+      if (start > 0 && !video.src.includes('#t=')) video.src += `#t=${start}`;
+      if (reduceMotion) video.preload = 'metadata';
+
+      const sync = () => {
+        const withSound = !video.muted;
+        const playing = withSound && !video.paused;
+        if (play) play.hidden = playing;
+        toggle?.setAttribute(
+          'aria-label',
+          playing ? 'Pausar el video' : withSound ? 'Reanudar el video' : 'Reproducir el video con sonido',
+        );
+        if (!sound) return;
+        sound.setAttribute('aria-pressed', String(withSound));
+        sound.setAttribute('aria-label', withSound ? 'Silenciar video' : 'Activar sonido del video');
+        sound.querySelector('.sound-on')?.classList.toggle('hidden', !withSound);
+        sound.querySelector('.sound-off')?.classList.toggle('hidden', withSound);
+      };
+
+      const backToLoop = () => {
+        video.muted = true;
+        video.currentTime = start;
+        if (reduceMotion) video.pause();
+        else video.play().catch(() => {});
+        sync();
+      };
+
+      const playWithSound = () => {
+        video.muted = false;
+        // Salta el destello inicial, sin cortar el comienzo de lo que se dice
+        video.currentTime = Math.max(0, start - 0.3);
+        video.play().catch(() => {});
+        sync();
+      };
+
+      // En silencio: al llegar al final del tramo, vuelve al inicio del tramo
+      video.addEventListener('timeupdate', () => {
+        if (video.muted && (video.currentTime >= end || video.currentTime < start)) {
+          video.currentTime = start;
+        }
+      });
+      // Con sonido llega al final real del video
+      video.addEventListener('ended', backToLoop);
+      video.addEventListener('play', sync);
+      video.addEventListener('pause', sync);
+
+      observer!.observe(video);
+
+      toggle?.addEventListener('click', () => {
+        if (video.muted) playWithSound();
+        else if (video.paused) video.play().catch(() => {});
+        else video.pause();
+      });
+      sound?.addEventListener('click', () => (video.muted ? playWithSound() : backToLoop()));
+    });
+  }
+
+  document.addEventListener('astro:page-load', setupActivityVideos);
+</script>

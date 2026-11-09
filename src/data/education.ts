@@ -66,7 +66,7 @@ export const levels: Level[] = [
     subjectsLabel: 'Áreas complementarias',
     subjects: ['Inglés', 'Manualidades', 'Religión', 'Educación Física'],
     image: inicial,
-    imageAlt: 'Niños de preescolar jugando en el patio de la Escolanía',
+    imageAlt: 'Niña de preescolar sonriendo junto a sus trabajos de la letra A',
   },
   {
     slug: 'basica',
@@ -79,7 +79,7 @@ export const levels: Level[] = [
     subjectsLabel: 'Áreas complementarias',
     subjects: ['Inglés', 'Manualidades', 'Religión', 'Educación Física'],
     image: basica,
-    imageAlt: 'Estudiantes de primaria con sus maestras',
+    imageAlt: 'Escolano de primaria sonriendo en su pupitre',
   },
   {
     slug: 'media-general',
@@ -103,6 +103,6 @@ export const levels: Level[] = [
       'Educación Física',
     ],
     image: mediaGeneral,
-    imageAlt: 'Estudiantes de bachillerato con el uniforme de la Escolanía',
+    imageAlt: 'Estudiantes de bachillerato junto a la bandera de Venezuela y el pendón de la Escolanía',
   },
 ];

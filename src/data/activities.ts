@@ -28,6 +28,10 @@ export interface Activity {
   signupUrl?: string;
   /** Sin foto se muestra un panel con el ícono de la actividad */
   image?: ImageMetadata;
+  /** Video vertical en public/ (p. ej. '/videos/ajedrez.mp4'); por ahora solo se muestra en la tarjeta del inicio */
+  video?: string;
+  /** Tramo (en segundos) que se repite en silencio en la tarjeta; evita destellos o cierres del video */
+  videoLoop?: { start: number; end: number };
 }
 
 const form = (id: string) => `https://docs.google.com/forms/d/e/${id}/viewform`;
@@ -35,10 +39,14 @@ const form = (id: string) => `https://docs.google.com/forms/d/e/${id}/viewform`;
 const data: Omit<Activity, 'minAge'>[] = [
   {
     // TODO(contenido): todo Ajedrez es borrador. Faltan foto, edades, profesor y formulario de inscripción.
+    // El video (nov. 2026) muestra al profesor presentando la actividad.
     slug: 'ajedrez',
     name: 'Ajedrez',
     tagline: 'Estrategia, concentración y paciencia',
     icon: 'chess',
+    video: '/videos/ajedrez.mp4',
+    // 0–0,7 s es un destello blanco y desde 23,2 s un cierre con el escudo sobre fondo blanco
+    videoLoop: { start: 1, end: 22.8 },
     groups: [],
     description:
       'El ajedrez es un juego-ciencia que entrena la mente: obliga a pensar antes de actuar, a anticipar las consecuencias de cada decisión y a mantener la concentración durante toda la partida. Nuestros escolanos fortalecen la memoria, el razonamiento lógico y la paciencia, y aprenden a ganar y a perder con respeto por el rival.',
