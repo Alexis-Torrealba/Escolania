@@ -1,0 +1,269 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-22T17:12:53.880Z",
+  "title": "Design System: U.E.P. Escolanía",
+  "extensions": {
+    "colorMeta": {
+      "navy-900": {
+        "role": "primary",
+        "displayName": "Navy de la Escolanía",
+        "canonical": "#0d1e5b",
+        "tonalRamp": [
+          "#070f33",
+          "#0d1e5b",
+          "#1a2963",
+          "#26356f",
+          "#334486",
+          "#4659a3",
+          "#6779be",
+          "#93a3d8",
+          "#bcc7e9",
+          "#dde3f4",
+          "#eef1fa"
+        ]
+      },
+      "gold-500": {
+        "role": "secondary",
+        "displayName": "Dorado del escudo",
+        "canonical": "#b49217",
+        "tonalRamp": [
+          "#4f3f15",
+          "#5f4b14",
+          "#775e12",
+          "#967812",
+          "#b49217",
+          "#cfae35",
+          "#e0c75e",
+          "#eedb94",
+          "#f6eec9",
+          "#fbf8ea"
+        ]
+      },
+      "sky-200": {
+        "role": "tertiary",
+        "displayName": "Celeste del escudo",
+        "canonical": "#c8dcf8",
+        "tonalRamp": [
+          "#77a3e9",
+          "#a3c3f2",
+          "#c8dcf8",
+          "#e6effc",
+          "#f4f8fe"
+        ]
+      },
+      "cashea": {
+        "role": "accent",
+        "displayName": "Amarillo Cashea (solo Cashea)",
+        "canonical": "#fdfa3d"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "H1."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Títulos de sección."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Tarjetas y bloques."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Texto corrido."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Etiquetas sobre títulos y cargos."
+      },
+      "note": {
+        "displayName": "Nota manuscrita",
+        "purpose": "Frases cortas y pies de foto."
+      }
+    },
+    "shadows": [
+      {
+        "name": "reposo",
+        "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+        "purpose": "Tarjetas."
+      },
+      {
+        "name": "accion",
+        "value": "0 10px 15px -3px rgb(119 94 18 / 0.25), 0 4px 6px -4px rgb(119 94 18 / 0.25)",
+        "purpose": "Botón principal."
+      },
+      {
+        "name": "flotante",
+        "value": "0 20px 25px -5px rgb(13 30 91 / 0.1), 0 8px 10px -6px rgb(13 30 91 / 0.1)",
+        "purpose": "Menús y polaroids."
+      },
+      {
+        "name": "foto-principal",
+        "value": "0 25px 50px -12px rgb(13 30 91 / 0.15)",
+        "purpose": "Foto de cabecera."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Entradas y estados."
+      },
+      {
+        "name": "fade-up",
+        "value": "0.55s",
+        "purpose": "Entrada de texto."
+      },
+      {
+        "name": "scale-in",
+        "value": "0.6s",
+        "purpose": "Entrada de medios."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Acción principal.",
+      "html": "<a class=\"ds-button-primary\" href=\"#\">Solicitar cupo<svg width=\"16\" height=\"16\" viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M3 10h13M12 6l4 4-4 4\"/></svg></a>",
+      "css": ".ds-button-primary{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:9999px;font:600 14px/20px var(--font-sans);text-decoration:none;transition:.3s var(--ease-out-expo);background:var(--color-gold-700);color:var(--color-white);box-shadow:0 0 0 1px var(--color-gold-500);} .ds-button-primary:hover{transform:translateY(-2px);background:var(--color-gold-800);} .ds-button-primary:focus-visible{outline:2px solid var(--color-gold-500);outline-offset:2px}"
+    },
+    {
+      "name": "Botón secundario",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Acción secundaria.",
+      "html": "<a class=\"ds-button-secondary\" href=\"#\">Contáctanos<svg width=\"16\" height=\"16\" viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M3 10h13M12 6l4 4-4 4\"/></svg></a>",
+      "css": ".ds-button-secondary{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:9999px;font:600 14px/20px var(--font-sans);text-decoration:none;transition:.3s var(--ease-out-expo);background:var(--color-navy-900);color:var(--color-white);} .ds-button-secondary:hover{transform:translateY(-2px);background:var(--color-navy-800);} .ds-button-secondary:focus-visible{outline:2px solid var(--color-gold-500);outline-offset:2px}"
+    },
+    {
+      "name": "Botón de contorno",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Acción de apoyo sobre claro.",
+      "html": "<a class=\"ds-button-outline\" href=\"#\">Conoce nuestra historia<svg width=\"16\" height=\"16\" viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M3 10h13M12 6l4 4-4 4\"/></svg></a>",
+      "css": ".ds-button-outline{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:9999px;font:600 14px/20px var(--font-sans);text-decoration:none;transition:.3s var(--ease-out-expo);border:1px solid var(--color-navy-200);color:var(--color-navy-900);} .ds-button-outline:hover{transform:translateY(-2px);border-color:var(--color-navy-900);background:var(--color-navy-50);} .ds-button-outline:focus-visible{outline:2px solid var(--color-gold-500);outline-offset:2px}"
+    },
+    {
+      "name": "Botón sobre navy",
+      "kind": "button",
+      "refersTo": "button-light",
+      "description": "Acción de apoyo sobre navy.",
+      "html": "<a class=\"ds-button-light\" href=\"#\">Contáctanos<svg width=\"16\" height=\"16\" viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M3 10h13M12 6l4 4-4 4\"/></svg></a>",
+      "css": ".ds-button-light{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:9999px;font:600 14px/20px var(--font-sans);text-decoration:none;transition:.3s var(--ease-out-expo);border:1px solid rgb(255 255 255/.25);color:var(--color-white);background:var(--color-navy-900);} .ds-button-light:hover{transform:translateY(-2px);border-color:var(--color-white);} .ds-button-light:focus-visible{outline:2px solid var(--color-gold-500);outline-offset:2px}"
+    },
+    {
+      "name": "Botón de Cashea",
+      "kind": "button",
+      "refersTo": "button-cashea",
+      "description": "Solo en bloques de Cashea.",
+      "html": "<a class=\"ds-button-cashea\" href=\"#\">Paga en cuotas<svg width=\"16\" height=\"16\" viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M3 10h13M12 6l4 4-4 4\"/></svg></a>",
+      "css": ".ds-button-cashea{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:9999px;font:600 14px/20px var(--font-sans);text-decoration:none;transition:.3s var(--ease-out-expo);background:var(--color-cashea-ink);color:var(--color-cashea);} .ds-button-cashea:hover{transform:translateY(-2px);background:var(--color-black);} .ds-button-cashea:focus-visible{outline:2px solid var(--color-gold-500);outline-offset:2px}"
+    },
+    {
+      "name": "Distintivo Cashea",
+      "kind": "chip",
+      "refersTo": "badge-cashea",
+      "description": "Plan de cuotas.",
+      "html": "<span class=\"ds-cashea\">Inicial + 3 cuotas con Cashea</span>",
+      "css": ".ds-cashea{display:inline-flex;padding:6px 14px;border-radius:9999px;background:var(--color-cashea);color:var(--color-cashea-ink);font:700 14px/20px var(--font-sans)}"
+    },
+    {
+      "name": "Tarjeta",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Superficie estándar.",
+      "html": "<div class=\"ds-card\"><strong>Nombre del bloque</strong><p>Texto de apoyo</p></div>",
+      "css": ".ds-card{padding:20px;border-radius:24px;background:var(--color-white);box-shadow:0 0 0 1px var(--color-navy-100),0 1px 3px rgb(0 0 0/.1);color:var(--color-slate-600);font:400 14px/20px var(--font-sans)} .ds-card strong{font:700 16px/24px var(--font-display);color:var(--color-navy-900)} .ds-card p{margin:4px 0 0}"
+    },
+    {
+      "name": "Opción de menú",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "Destino en un menú.",
+      "html": "<a class=\"ds-nav\" href=\"#\" aria-current=\"page\">Historia</a>",
+      "css": ".ds-nav{display:block;padding:12px 16px;border-radius:12px;color:var(--color-navy-900);font:600 14px/20px var(--font-sans);text-decoration:none} .ds-nav:hover,.ds-nav[aria-current=page]{background:var(--color-sky-50)} .ds-nav:focus-visible{outline:2px solid var(--color-gold-500)}"
+    },
+    {
+      "name": "Polaroid",
+      "kind": "custom",
+      "description": "Foto de archivo con pie manuscrito.",
+      "html": "<figure class=\"ds-photo\"><div></div><figcaption>La Coral en sus primeros años</figcaption></figure>",
+      "css": ".ds-photo{width:240px;margin:0;padding:12px 12px 16px;background:var(--color-white);box-shadow:0 0 0 1px var(--color-navy-100),0 20px 25px -5px rgb(13 30 91/.1);transform:rotate(-2deg)} .ds-photo div{aspect-ratio:4/3;background:var(--color-sky-100)} .ds-photo figcaption{margin-top:12px;text-align:center;color:var(--color-navy-700);font:600 20px/1.2 var(--font-script)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "El álbum de la Coral",
+    "overview": "La Escolanía se presenta como un álbum familiar guardado con orgullo desde 1991: solemne como su escudo y cercano como una foto de grupo con una nota escrita a mano. El navy da la seriedad institucional, el dorado señala lo importante y el celeste del escudo abre espacio y luz.\n\nLos componentes se sienten **cálidos y seguros**: formas muy redondeadas, superficies blancas con un borde fino y profundidad contenida. Los gestos personales (una foto girada, una nota manuscrita, un subrayado) son pocos y acompañan el contenido real.",
+    "keyCharacteristics": [
+      "Navy para la autoridad, dorado para el acento, celeste para el aire.",
+      "Fotos reales, enmarcadas y a veces levemente giradas.",
+      "Notas manuscritas breves, nunca párrafos.",
+      "Botones en píldora y tarjetas muy redondeadas.",
+      "Sombra suave en reposo, marcada solo donde algo se eleva."
+    ],
+    "rules": [
+      {
+        "name": "The Cashea Rule",
+        "body": "El amarillo de Cashea solo aparece en lo de Cashea, siempre con su tinta oscura encima. Cashea nunca se pinta en dorado institucional.",
+        "section": "colors"
+      },
+      {
+        "name": "The Readable Gold Rule",
+        "body": "Sobre fondos claros, el texto dorado normal exige 4,5:1 y el grande 3:1. gold-600 no alcanza para texto normal y gold-500 no alcanza para ningún texto: los usos actuales que lo incumplen son deuda por corregir, no un patrón que copiar.",
+        "section": "colors"
+      },
+      {
+        "name": "The Eyebrow Rule",
+        "body": "La etiqueta en mayúsculas sobre el título, con línea dorada en las secciones, es parte del sistema y se conserva.",
+        "section": "typography"
+      },
+      {
+        "name": "The Handwritten Note Rule",
+        "body": "Caveat se reserva para notas cortas. Nunca lleva instrucciones, datos ni párrafos.",
+        "section": "typography"
+      },
+      {
+        "name": "The Quiet Rest Rule",
+        "body": "Una tarjeta en reposo solo lleva borde fino y sombra suave. La sombra marcada queda para botones, fotos y menús.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do usar los tokens de `src/styles/global.css`.",
+      "Do comprobar el contraste en el HTML compilado: el hook no resuelve los colores de Tailwind en archivos `.astro`.",
+      "Do diseñar primero a 375px y mantener objetivos táctiles de 44px.",
+      "Do usar el marco sin foto cuando falte una foto real."
+    ],
+    "donts": [
+      "Don't cambiar las tres familias tipográficas ni la paleta del escudo.",
+      "Don't usar el amarillo de Cashea fuera de Cashea.",
+      "Don't usar fotos de stock ni generadas.",
+      "Don't poner texto blanco sobre gold-500 ni sobre el amarillo de Cashea.",
+      "Don't convertir un grupo largo en un listado vertical sin fin.",
+      "Don't repartir el filete lateral de Ideario por otras tarjetas."
+    ]
+  }
+}

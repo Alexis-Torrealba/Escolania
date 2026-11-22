@@ -30,3 +30,18 @@ Backup/
 
 # Referencias de diseño de terceros
 Ref/
+
+# Skills de diseño: se instalan en cada equipo (npx impeccable install)
+.claude/
+
+# Impeccable: se versiona la configuración compartida, no el estado local
+.impeccable/*
+!.impeccable/config.json
+!.impeccable/design.json
+!.impeccable/live/
+.impeccable/live/*
+!.impeccable/live/config.json
+!.impeccable/surfaces/
+!.impeccable/critique/
+.impeccable/critique/*
+!.impeccable/critique/ignore.md

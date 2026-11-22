@@ -1,0 +1,50 @@
+{
+  "hook": {
+    "enabled": true,
+    "limits": {
+      "maxFindings": 5,
+      "maxChars": 8000
+    }
+  },
+  "telemetry": false,
+  "detector": {
+    "ignoreRules": [
+      "kicker-above-heading",
+      "hero-eyebrow-chip"
+    ],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "dist/nosotros/ideario/index.html",
+          "src/pages/nosotros/ideario.astro"
+        ],
+        "createdAt": "2026-11-22T17:12:10.061Z",
+        "reason": "user confirmed 2026-11-22: filete aprobado solo en Ideario"
+      },
+      {
+        "rule": "repeating-stripes-gradient",
+        "value": "*",
+        "files": [
+          "dist/**",
+          "src/components/ActivityMedia.astro",
+          "src/components/PhotoPlaceholder.astro"
+        ],
+        "createdAt": "2026-11-22T17:12:10.217Z",
+        "reason": "user confirmed 2026-11-22: trama de los marcos sin foto"
+      },
+      {
+        "rule": "buried-raster",
+        "value": "*",
+        "files": [
+          "dist/**",
+          "src/components/CallToAction.astro"
+        ],
+        "createdAt": "2026-11-22T17:12:10.365Z",
+        "reason": "user confirmed 2026-11-22: escudo como marca de agua al 7 por ciento"
+      }
+    ]
+  }
+}

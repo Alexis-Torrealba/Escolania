@@ -1,4 +1,9 @@
 @import "tailwindcss";
+/* Los skills y sus documentos traen ejemplos con clases: sin esto Tailwind los mete en el CSS del sitio */
+@source not "../../.claude";
+@source not "../../.impeccable";
+@source not "../../PRODUCT.md";
+@source not "../../DESIGN.md";
 
 /* Fuentes self-hosted (se sirven desde nuestro dominio, sin Google Fonts) */
 @import "@fontsource-variable/plus-jakarta-sans";
