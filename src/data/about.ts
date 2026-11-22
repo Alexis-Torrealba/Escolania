@@ -314,8 +314,14 @@ export const orgChart = {
 
 /* ------------------------------------------------------------------
    Personal
-   TODO(contenido): la institución está preparando la lista actualizada.
-   Cada grupo arranca vacío; al rellenar `members` las tarjetas aparecen solas.
+   Fuente: fichas de la institución (nov. 2026); nombre y cargo salen de cada ficha.
+   Para agregar a alguien: foto cuadrada en src/assets/personal/ y una línea en su grupo.
+   TODO(contenido), por confirmar con la institución:
+   - Luz Pino (la ficha solo dice «Maestra»): ¿Inicial o Primaria?
+   - Marvin González (la ficha no indica nivel): ¿Media General?
+   - Flor Regalado: significado de «CRA» y su categoría.
+   - Apellidos de la Maestra Yesenia y de la Dra. Rafalmy.
+   - Nelsón Ríos: ¿lleva tilde el nombre?
    ------------------------------------------------------------------ */
 export interface StaffMember {
   name: string;
@@ -324,35 +330,86 @@ export interface StaffMember {
   photo?: ImageMetadata;
 }
 
+const staffPhotos = import.meta.glob<{ default: ImageMetadata }>('../assets/personal/*.jpg', { eager: true });
+
+function staffPhoto(file: string): ImageMetadata {
+  const photo = staffPhotos[`../assets/personal/${file}.jpg`];
+  // Un nombre mal escrito debe romper el build, no publicar una tarjeta sin foto
+  if (!photo) throw new Error(`Falta la foto src/assets/personal/${file}.jpg`);
+  return photo.default;
+}
+
 export const staffGroups: { slug: string; title: string; description: string; members: StaffMember[] }[] = [
   {
     slug: 'inicial',
     title: 'Educación Inicial',
     description: 'Maestras y auxiliares de preescolar',
-    members: [],
+    members: [
+      { name: 'Yris Gil', role: 'Maestra', photo: staffPhoto('yris-gil') },
+    ],
   },
   {
     slug: 'primaria',
     title: 'Educación Primaria',
     description: 'Docentes de 1.º a 6.º grado',
-    members: [],
+    members: [
+      { name: 'Maestra Yesenia', role: 'Coordinadora Pedagógica de Primaria', photo: staffPhoto('yesenia') },
+      { name: 'Berenice Marcano', role: 'Maestra', photo: staffPhoto('berenice-marcano') },
+      { name: 'Dayrlin Poleo', role: 'Maestra', photo: staffPhoto('dayrlin-poleo') },
+      { name: 'Elizabeth González', role: 'Maestra', photo: staffPhoto('elizabeth-gonzalez') },
+      { name: 'Ismenia Pérez', role: 'Maestra', photo: staffPhoto('ismenia-perez') },
+      { name: 'Luz Pino', role: 'Maestra', photo: staffPhoto('luz-pino') },
+      { name: 'Yelitza Nieves', role: 'Maestra', photo: staffPhoto('yelitza-nieves') },
+    ],
   },
   {
     slug: 'especialistas',
     title: 'Especialistas',
-    description: 'Inglés, religión, música, manualidades y extracátedras',
-    members: [],
+    description: 'Inglés, religión, música, manualidades, deporte y extracátedras',
+    members: [
+      { name: 'Jorge Peña', role: 'Presbítero', photo: staffPhoto('jorge-pena') },
+      { name: 'Sirhelis Requena', role: 'Profesora de Pastoral', photo: staffPhoto('sirhelis-requena') },
+      { name: 'Maryerling López', role: 'Profesora de Religión', photo: staffPhoto('maryerling-lopez') },
+      { name: 'Yoleidy Salazar', role: 'Profesora de Deporte', photo: staffPhoto('yoleidy-salazar') },
+      { name: 'Raiber Mijares', role: 'Profesor de Deporte', photo: staffPhoto('raiber-mijares') },
+      { name: 'Jhordan Sequeira', role: 'Profesor de Ajedrez', photo: staffPhoto('jhordan-sequeira') },
+      { name: 'Flor Regalado', role: 'Profesora CRA', photo: staffPhoto('flor-regalado') },
+    ],
   },
   {
     slug: 'media-general',
     title: 'Media General',
     description: 'Profesores de 1.º a 5.º año',
-    members: [],
+    members: [
+      { name: 'Marvin González', role: 'Coordinadora Pedagógica', photo: staffPhoto('marvin-gonzalez') },
+      { name: 'Shirley Sánchez', role: 'Coordinadora de Evaluación de Bachillerato', photo: staffPhoto('shirley-sanchez') },
+      { name: 'Aida Bossio', role: 'Profesora de Castellano', photo: staffPhoto('aida-bossio') },
+      { name: 'Edilia Díaz', role: 'Profesora de Castellano', photo: staffPhoto('edilia-diaz') },
+      { name: 'Lervis Pérez', role: 'Profesor de Matemáticas', photo: staffPhoto('lervis-perez') },
+      { name: 'Nelsón Ríos', role: 'Profesor de Física', photo: staffPhoto('nelson-rios') },
+      { name: 'Nancy Torres', role: 'Profesora de Ciencias Naturales', photo: staffPhoto('nancy-torres') },
+      { name: 'Norexa Rojas', role: 'Profesora de GHC, Arte y Patrimonio', photo: staffPhoto('norexa-rojas') },
+      { name: 'Mariela Milano', role: 'Profesora de Administración', photo: staffPhoto('mariela-milano') },
+      { name: 'Joana Romero', role: 'Profesora de Construcción Civil', photo: staffPhoto('joana-romero') },
+    ],
   },
   {
     slug: 'administrativo',
     title: 'Personal administrativo',
     description: 'Administración, bienestar estudiantil y servicios',
-    members: [],
+    members: [
+      { name: 'Neulys Guilarte', role: 'Subdirectora Académica', photo: staffPhoto('neulys-guilarte') },
+      { name: 'Dra. Rafalmy', role: 'Departamento de Gestión Legal y Humana', photo: staffPhoto('rafalmy') },
+      { name: 'Yuletkia Peña', role: 'Departamento de Administración y Cobranza', photo: staffPhoto('yuletkia-pena') },
+      { name: 'Darlenys Pérez', role: 'Secretaria de Dirección', photo: staffPhoto('darlenys-perez') },
+      { name: 'Damaris Salazar', role: 'Secretaria Académica de Primaria', photo: staffPhoto('damaris-salazar') },
+      { name: 'Jean Ortega', role: 'Portero', photo: staffPhoto('jean-ortega') },
+      { name: 'Carmen Laya', role: 'Cocinera', photo: staffPhoto('carmen-laya') },
+      { name: 'Edwin Ramos', role: 'Cocinero', photo: staffPhoto('edwin-ramos') },
+      { name: 'Liris Martínez', role: 'Servicios Generales', photo: staffPhoto('liris-martinez') },
+      { name: 'Yasmira González', role: 'Servicios Generales', photo: staffPhoto('yasmira-gonzalez') },
+      { name: 'José Morao', role: 'Servicios Generales', photo: staffPhoto('jose-morao') },
+      { name: 'José Silva', role: 'Servicios Generales', photo: staffPhoto('jose-silva') },
+    ],
   },
 ];

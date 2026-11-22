@@ -1,5 +1,7 @@
 ---
 import { Image } from 'astro:assets';
+import ChevronLeft from '@lucide/astro/icons/chevron-left';
+import ChevronRight from '@lucide/astro/icons/chevron-right';
 import User from '@lucide/astro/icons/user';
 import Users from '@lucide/astro/icons/users';
 import PageLayout from '../../layouts/PageLayout.astro';
@@ -16,7 +18,7 @@ const filled = staffGroups.filter((g) => g.members.length > 0);
 const groups = isDev ? staffGroups : filled;
 const initials = (name: string) =>
   name
-    .replace(/^(Prof\.|Profa\.|Lic\.|Pbro\.|Abg\.)\s*/i, '')
+    .replace(/^((Prof|Profa|Lic|Pbro|Abg|Dr|Dra)\.\s*)+/i, '') // puede haber varios títulos: «Pbro. Lic.»
     .split(/\s+/)
     .slice(0, 2)
     .map((w) => w[0])
@@ -41,7 +43,7 @@ const initials = (name: string) =>
   <!-- Equipo directivo (confirmado) -->
   <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
     <SectionHeading eyebrow="Dirección" title="Equipo " highlight="directivo" />
-    <ul class="mt-10 grid gap-5 md:grid-cols-3">
+    <ul class="mt-10 grid gap-5 lg:grid-cols-3">
       {
         leadership.map((person) => (
           <li class="reveal flex items-center gap-4 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-navy-100">
@@ -63,7 +65,7 @@ const initials = (name: string) =>
       <div class="bg-sky-50/70">
         <div class="mx-auto max-w-7xl space-y-20 px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
           {groups.map((group) => (
-            <section id={group.slug} class="scroll-mt-36" aria-labelledby={`titulo-${group.slug}`}>
+            <section id={group.slug} class="scroll-mt-36" data-staff-row aria-labelledby={`titulo-${group.slug}`}>
               <div class="reveal flex flex-wrap items-end justify-between gap-2 border-b border-navy-100 pb-4">
                 <h2 id={`titulo-${group.slug}`} class="text-2xl sm:text-3xl">
                   {group.title}
@@ -71,16 +73,33 @@ const initials = (name: string) =>
                 <p class="text-slate-500">{group.description}</p>
               </div>
 
-              <ul class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {/* Las flechas solo aparecen si la fila no cabe completa (ver script al final) */}
+              <div class="mt-4 hidden justify-end gap-2" data-staff-controls>
+                <button type="button" class="staff-arrow" data-dir="-1" aria-label={`Ver anteriores de ${group.title}`}>
+                  <ChevronLeft size={22} aria-hidden="true" />
+                </button>
+                <button type="button" class="staff-arrow" data-dir="1" aria-label={`Ver siguientes de ${group.title}`}>
+                  <ChevronRight size={22} aria-hidden="true" />
+                </button>
+              </div>
+
+              {/* `reveal` va en la fila y no en cada tarjeta: las de fuera de pantalla llegarían invisibles al deslizar */}
+              <ul
+                class="staff-track reveal mt-4"
+                role="list"
+                tabindex="0"
+                aria-labelledby={`titulo-${group.slug}`}
+                data-staff-track
+              >
                 {group.members.length > 0
                   ? group.members.map((m) => (
-                      <li class="reveal overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-navy-100">
+                      <li class="staff-card overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-navy-100">
                         {m.photo ? (
                           <Image
                             src={m.photo}
                             alt={`Foto de ${m.name}`}
-                            widths={[240, 360, 480]}
-                            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                            widths={[240, 360, 480, 720]}
+                            sizes="(min-width: 1280px) 289px, (min-width: 1024px) 25vw, (min-width: 640px) 42vw, 75vw"
                             class="aspect-square w-full object-cover"
                           />
                         ) : (
@@ -102,7 +121,7 @@ const initials = (name: string) =>
                       </li>
                     ))
                   : Array.from({ length: 4 }, () => (
-                      <li class="rounded-3xl border-2 border-dashed border-navy-200 bg-white/60 p-5" aria-hidden="true">
+                      <li class="staff-card rounded-3xl border-2 border-dashed border-navy-200 bg-white/60 p-5" aria-hidden="true">
                         <div class="grid aspect-square place-items-center rounded-2xl bg-navy-50">
                           <User size={48} class="text-navy-200" />
                         </div>
@@ -138,3 +157,105 @@ const initials = (name: string) =>
     )
   }
 </PageLayout>
+
+<script>
+  // Flechas de cada fila de Personal. Deslizar con el dedo, el trackpad o el teclado funciona sin este script.
+  let resizer: ResizeObserver | undefined;
+
+  document.addEventListener('astro:page-load', () => {
+    resizer?.disconnect();
+    resizer = new ResizeObserver((entries) => entries.forEach((e) => e.target.dispatchEvent(new Event('scroll'))));
+
+    document.querySelectorAll<HTMLElement>('[data-staff-row]').forEach((row) => {
+      const track = row.querySelector<HTMLElement>('[data-staff-track]')!;
+      const controls = row.querySelector<HTMLElement>('[data-staff-controls]')!;
+      const [prev, next] = controls.querySelectorAll('button');
+
+      const update = () => {
+        const max = track.scrollWidth - track.clientWidth;
+        controls.style.display = max > 4 ? 'flex' : 'none';
+        prev.disabled = track.scrollLeft <= 4;
+        next.disabled = track.scrollLeft >= max - 4;
+      };
+
+      [prev, next].forEach((button) =>
+        button.addEventListener('click', () => {
+          const card = track.querySelector('li');
+          if (!card) return;
+          // Avanza las tarjetas que se ven completas (1 en teléfono, 2 en tablet, 4 en escritorio)
+          const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap);
+          const count = Math.max(1, Math.floor((track.clientWidth + 24) / step));
+          track.scrollBy({
+            left: Number(button.dataset.dir) * step * count,
+            behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+          });
+        }),
+      );
+
+      track.addEventListener('scroll', update, { passive: true });
+      resizer!.observe(track);
+      update();
+    });
+  });
+</script>
+
+<style>
+  .staff-track {
+    --gap: 1rem;
+    --visible: 1.3; /* en teléfono asoma la siguiente tarjeta: invita a deslizar */
+    position: relative;
+    display: flex;
+    gap: var(--gap);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    /* Aire para que el scroll no recorte sombras ni bordes */
+    padding: 0.25rem 0.25rem 1.25rem;
+    scroll-padding-inline: 0.25rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-navy-300) var(--color-navy-100);
+  }
+  .staff-track:focus-visible {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 4px;
+    border-radius: 1.5rem;
+  }
+  .staff-card {
+    flex: 0 0 calc((100% - (var(--visible) - 1) * var(--gap)) / var(--visible));
+    scroll-snap-align: start;
+  }
+  @media (min-width: 40rem) {
+    .staff-track {
+      --gap: 1.25rem;
+      --visible: 2.3;
+    }
+  }
+  @media (min-width: 64rem) {
+    .staff-track {
+      --visible: 4;
+    }
+  }
+
+  .staff-arrow {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--color-navy-200);
+    border-radius: 999px;
+    background: white;
+    color: var(--color-navy-900);
+    cursor: pointer;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+  .staff-arrow:not(:disabled):hover {
+    background: var(--color-navy-900);
+    color: var(--color-gold-400);
+  }
+  .staff-arrow:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+</style>
