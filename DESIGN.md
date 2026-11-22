@@ -208,6 +208,7 @@ Una paleta heráldica tomada del escudo, sobre blanco. La fuente de los valores 
 
 - **Dorado del escudo** (gold-500): líneas, subrayados, números en círculo con texto navy y anillo de los botones.
 - **Dorado profundo** (gold-700): botón principal con texto blanco y texto dorado pequeño sobre fondos claros.
+- **Dorado medio** (gold-600): palabras destacadas de los títulos, cifras y notas manuscritas grandes sobre fondos claros.
 - **Dorado claro** (gold-300 y gold-400): acentos de texto e íconos sobre navy.
 
 ### Tertiary
@@ -227,7 +228,7 @@ Una paleta heráldica tomada del escudo, sobre blanco. La fuente de los valores 
 
 **The Cashea Rule.** El amarillo de Cashea solo aparece en lo de Cashea, siempre con su tinta oscura encima. Cashea nunca se pinta en dorado institucional.
 
-**The Readable Gold Rule.** Sobre fondos claros, el texto dorado normal exige 4,5:1 y el grande 3:1. gold-600 no alcanza para texto normal y gold-500 no alcanza para ningún texto: los usos actuales que lo incumplen son deuda por corregir, no un patrón que copiar.
+**The Readable Gold Rule.** Sobre fondos claros, el texto dorado normal exige 4,5:1 y el grande 3:1. Por eso el texto normal usa gold-700, el grande (24px, o 18,66px en negrita) usa gold-600, y gold-500 queda para líneas, rellenos e íconos decorativos.
 
 ## Typography
 

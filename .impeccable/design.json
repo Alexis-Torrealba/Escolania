@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-22T17:12:53.880Z",
+  "generatedAt": "2026-11-22T17:23:54.927Z",
   "title": "Design System: U.E.P. Escolanía",
   "extensions": {
     "colorMeta": {
@@ -232,7 +232,7 @@
       },
       {
         "name": "The Readable Gold Rule",
-        "body": "Sobre fondos claros, el texto dorado normal exige 4,5:1 y el grande 3:1. gold-600 no alcanza para texto normal y gold-500 no alcanza para ningún texto: los usos actuales que lo incumplen son deuda por corregir, no un patrón que copiar.",
+        "body": "Sobre fondos claros, el texto dorado normal exige 4,5:1 y el grande 3:1. Por eso el texto normal usa gold-700, el grande (24px, o 18,66px en negrita) usa gold-600, y gold-500 queda para líneas, rellenos e íconos decorativos.",
         "section": "colors"
       },
       {

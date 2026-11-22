@@ -34,7 +34,8 @@
 
   /* Dorado de acento. Marca = 500 (#B49217, paleta de Divi).
      Contraste: blanco sobre gold-500 = 3:1 (no apto para texto normal);
-     navy-900 sobre gold-500 = 5.2:1 ✅ → botones dorados llevan texto navy. */
+     navy-900 sobre gold-500 = 5.2:1 ✅ → botones dorados llevan texto navy.
+     Texto dorado sobre fondo claro: normal → gold-700 (4.5:1), grande → gold-600 (3:1). */
   --color-gold-50: #fbf8ea;
   --color-gold-100: #f6eec9;
   --color-gold-200: #eedb94;

@@ -15,7 +15,9 @@ const { eyebrow, title, highlight, align = 'left', tone = 'light', class: classN
 <div class:list={['reveal max-w-2xl', align === 'center' && 'mx-auto text-center', className]}>
   <p
     class:list={[
-      'flex items-center gap-3 text-xs font-bold tracking-[0.25em] text-gold-600 uppercase',
+      'flex items-center gap-3 text-xs font-bold tracking-[0.25em] uppercase',
+      // Sobre claro el dorado se oscurece para cumplir AA; sobre navy se aclara
+      tone === 'dark' ? 'text-gold-400' : 'text-gold-700',
       align === 'center' && 'justify-center',
     ]}
   >
@@ -25,7 +27,7 @@ const { eyebrow, title, highlight, align = 'left', tone = 'light', class: classN
   </p>
   <h2 class:list={['mt-3 text-3xl leading-tight sm:text-4xl', tone === 'dark' && 'text-white']}>
     {title}
-    {highlight && <span class="text-gold-500">{highlight}</span>}
+    {highlight && <span class:list={[tone === 'dark' ? 'text-gold-400' : 'text-gold-600']}>{highlight}</span>}
   </h2>
   {
     Astro.slots.has('default') && (
